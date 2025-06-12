@@ -1,0 +1,54 @@
+.bg_rating, .abc_counter_rating {
+    font-family: Arial, sans-serif, "ms sans serif";
+    font-size: 12px;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+#rate-box, #abc_counter_rate_box {
+    font-family: Arial, sans-serif, "ms sans serif";
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+#rate-box *, #abc_counter_rate_box * {
+    font-family: Arial, sans-serif, "ms sans serif";
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+#rate-box li, #abc_counter_rate_box li {
+    font-family: Arial, sans-serif, "ms sans serif";
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+    list-style: none;
+    cursor: default;
+    background-image: url(stars.png);
+    background-size: 100% auto;
+    background-position: 0 20px;
+}
+
+#popup-help, #abc_counter_popup_help {
+    position: absolute;
+    padding: 2px 10px;
+    margin: 0;
+    left: 0;
+    bottom: 44px;
+    min-width: 115px;
+    z-index: 100;
+    font-size: 16px;
+    background-color: rgba(250, 248, 241, 0.9);
+    color: #8A5536;
+    display: none;
+    font-family: Arial, sans-serif, "ms sans serif";
+    text-align: center;
+    border: 1px solid #A6801E;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}

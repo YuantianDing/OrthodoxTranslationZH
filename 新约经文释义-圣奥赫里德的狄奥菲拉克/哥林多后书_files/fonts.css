@@ -1,0 +1,87 @@
+@font-face {
+    font-family: 'HirmosPonomar';
+    font-display: swap;
+    src: url('/otechnik/assets/fonts//PonomarUnicode.woff') format('woff'),
+    url('/otechnik/assets/fonts//PonomarUnicode.otf') format('otf'),
+    url('/otechnik/assets/fonts//PonomarUnicode.eot') format('eot'),
+    url('/otechnik/assets/fonts//PonomarUnicode.svg') format('svg');
+}
+/*@font-face {
+    font-family: 'old-romanian';
+    font-display: swap;
+    src: url('/otechnik/assets/fonts//OldRomanian.ttf') format('truetype');
+}*/
+
+@font-face {
+    font-family: 'old-romanian';
+    src: url('OldRomanian.eot');
+    src: local('Old Romanian'), local('OldRomanian'),
+        url('OldRomanian.eot?#iefix') format('embedded-opentype'),
+        url('OldRomanian.woff2') format('woff2'),
+        url('OldRomanian.woff') format('woff'),
+        url('OldRomanian.svg#OldRomanian') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/*@font-face {
+    font-family: "Georgia-my";
+    font-display: swap;
+    src: url("/otechnik/assets/fonts//Georgia-my.ttf") format("truetype");
+    font-style: normal; font-weight: normal;
+}
+@font-face {
+    font-family: "Georgia-my";
+    font-display: swap;
+    src: url("/otechnik/assets/fonts//Georgia-Bold.ttf") format("truetype");
+    font-style: normal; font-weight: bold;
+}
+@font-face {
+    font-family: "Georgia-my";
+    font-display: swap;
+    src: url("/otechnik/assets/fonts//Georgia-Italic.ttf") format("truetype");
+    font-style: italic;
+}
+@font-face {
+    font-family: "Georgia-my";
+    font-display: swap;
+    src: url("/otechnik/assets/fonts/Georgia-BoldItalic.ttf") format("truetype");
+    font-style: italic; font-weight: bold;
+}*/
+
+@font-face {
+    font-family: 'Georgia-my';
+    src: url('../fonts/subset-Georgia-Bold.eot');
+    src: local('Georgia my Bold'), local('Georgia-my-Bold'),
+        url('../fonts/subset-Georgia-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/subset-Georgia-Bold.woff2') format('woff2'),
+        url('../fonts/subset-Georgia-Bold.woff') format('woff'),
+        url('../fonts/subset-Georgia-Bold.svg#Georgia-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Georgia-my';
+    src: url('../fonts/subset-Georgia.eot');
+    src: local('Georgia my'), local('Georgia-my'),
+        url('../fonts/subset-Georgia.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/subset-Georgia.woff2') format('woff2'),
+        url('../fonts/subset-Georgia.woff') format('woff'),
+        url('../fonts/subset-Georgia.svg#Georgia') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/*@font-face {
+    font-family: 'FontAwesome';
+    font-display: swap;
+    src: url('/otechnik/assets/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),
+    url('/otechnik/assets/fonts/fontawesome-webfont.eot?v=4.7.0') format('eot'),
+    url('/otechnik/assets/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}*/

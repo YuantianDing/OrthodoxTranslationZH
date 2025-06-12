@@ -1,0 +1,52 @@
+body, #txtselect_marker, .bg-body {
+	background-color: #fbf5ea !important;
+}
+body, .text {
+	color: #000;
+}
+#selectable-content, 
+#selectable-content p, 
+.book div, 
+.book .avtor,
+.annotation-content,
+.annotation-content p{
+	font-size: 14pt;
+	font-family: Georgia-my,palatino,serif;
+}
+
+
+
+#selectable-content *:not(h1), #selectable-content *:not(.as-h1), #selectable-content p, .book div, .annotation-content {
+    line-height: 17pt;
+}
+
+.text .user_selection_true,
+b.hl {
+	background-color: #FFF;
+}
+.author-description p:not([class]),
+.card-html p:not([class]),
+.card-tpl p:not([class]),
+.book .txt {
+	margin-bottom: 0.45em !important;
+}.book .name_link, a.zam_link, .avtor + h1 > a {
+	text-shadow: 1px 0 0 #fbf5ea, -1px 0 0 #fbf5ea, 2px 0 0 #fbf5ea, -2px 0 0 #fbf5ea;
+}
+#selectable-content h1 a::selection, .book .name_link::selection, a.zam_link::selection {
+	text-shadow: none !important;
+	color: white;
+	background-color: #3399FF;
+}
+#selectable-content h1 a::-moz-selection, .book .name_link::-moz-selection, a.zam_link::-moz-selection {
+	text-shadow: none !important;;
+	color: white;
+	background-color: #3399FF;
+}
+.book-search {
+	color: #fbf5ea;
+}
+
+:root{
+	--body-bg: #fbf5ea;
+}
+.read-more{background: linear-gradient(to bottom, transparent 0%, #fbf5ea 50%, #fbf5ea 100%);}
