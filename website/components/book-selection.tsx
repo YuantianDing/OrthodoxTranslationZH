@@ -31,15 +31,15 @@ export default function BookSelection() {
 
   const filteredBooks = booksMeta.filter(
     (book) =>
-      book.titleRussian.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      book.titleChinese.includes(searchQuery) ||
-      book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      book.authorChinese.includes(searchQuery),
+      book.title[0].toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.title[1].includes(searchQuery) ||
+      book.author[0].toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.author[1].includes(searchQuery),
   )
 
   const booksByAuthor = filteredBooks.reduce(
     (acc, book) => {
-      const authorKey = `${book.author}|${book.authorChinese}`
+      const authorKey = `${book.author[0]}|${book.author[1]}`
       if (!acc[authorKey]) {
         acc[authorKey] = []
       }
@@ -107,18 +107,18 @@ export default function BookSelection() {
                             <Link
                               href={`/compare/${book.id}`}
                               className="inline-block font-serif text-lg text-foreground transition-colors hover:text-accent"
-                              title={book.titleRussian}
+                              title={book.title[0]}
                             >
-                              {truncateText(book.titleRussian)}
+                              {truncateText(book.title[0])}
                             </Link>
                           </td>
                           <td className="w-1/2 py-3 pl-3 text-left">
                             <Link
                               href={`/compare/${book.id}`}
                               className="inline-block font-serif text-lg text-foreground transition-colors hover:text-accent"
-                              title={book.titleChinese}
+                              title={book.title[1]}
                             >
-                              {truncateText(book.titleChinese)}
+                              {truncateText(book.title[1])}
                             </Link>
                           </td>
                         </tr>

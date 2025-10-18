@@ -1,4 +1,5 @@
 from copy import deepcopy
+import os.path
 import os
 from pathlib import Path
 import re
@@ -10,6 +11,7 @@ from gemini import test_translated_result, translate
 from google.genai.errors import ServerError
 import subprocess
 
+from gen_metadata import generate_metadata
 from parsing import standardize_bible_names
 from yaml_type import Book
 import traceback
@@ -138,3 +140,5 @@ if __name__ == "__main__":
 
                 for footnote in book['footnotes'].values():
                     translate_lang_text(footnote, languages=book['languages'])
+        if os.path.abs(workdir) == os.path.dirname(os.path.abs(__file__)):
+            generate_metadata()
