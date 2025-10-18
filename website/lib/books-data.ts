@@ -3,12 +3,13 @@ import type { Book } from "./types"
 import {transliterate} from "./utils"
 import yaml from "js-yaml"
 import * as fs from "fs"
+import { encode } from "punycode"
 
 
 export interface BookMeta {
-  id: string
+  filepath: string
   title: [string, string]
-  author: [string, string]
+  author: [string, string][]
 }
 
 function transform(data: any) : any {
@@ -28,22 +29,14 @@ function transform(data: any) : any {
   }
 }
 
-function retrieve_book_data(): {[id: string]: Book} {
-  let books: [string, Book][] = [];
-  for (const path of globSync("../**/book.yaml")) {
-    const book = transform(yaml.load(fs.readFileSync(path, 'utf8'))) as Book;
-    const id = transliterate(book.title[0] + "." + book.authors.map(a => a[0]).join("."));
-    books.push([id, {...book}]);
+export async function retrieve_book(id: string): Promise<Book | null> {
+  const data = await fetch(`https://raw.githubusercontent.com/YuantianDing/OrthodoxTranslationZH/refs/heads/master/${encodeURI(id)}`)
+  if (!data.ok) {
+    return null;
   }
-  return Object.fromEntries(books);
+  return transform(yaml.load(await data.text())) as Book;
 }
-
-export function retrieve_book(id: string): Book | null {
-  fetch("")
-  return books[id] || null
+export async function retrieve_book_metadata(): Promise<BookMeta[]> {
+  const data = await fetch("https://raw.githubusercontent.com/YuantianDing/OrthodoxTranslationZH/refs/heads/master/metadata.yaml")
+  return transform(yaml.load(await data.text())) as BookMeta[];
 }
-
-export const books: {[id: string]: Book } = retrieve_book_data();
-
-export const booksMeta: BookMeta[] = Object.entries(books).map(([id, book]) => ({
-  id, title: book.title, author: book.authors[0]}));

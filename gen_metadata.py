@@ -10,7 +10,7 @@ def generate_metadata():
         metadata.append({
             "filepath": str(path),
             "title": data.get("title", "Unknown Title"),
-            "authors": data.get("author", "Unknown Author"),
+            "authors": data.get("authors", "Unknown Author"),
             "languages": data.get("language", []),
         })
     with open("metadata.yaml", "w") as f:

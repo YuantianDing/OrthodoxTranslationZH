@@ -4,14 +4,14 @@ import { useState, useRef, useEffect } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import { booksMeta } from "@/lib/books-data"
+import { BookMeta, retrieve_book_metadata } from "@/lib/books-data"
 
 const truncateText = (text: string, maxLength = 30) => {
   if (text.length <= maxLength) return text
   return text.slice(0, maxLength) + "..."
 }
 
-export default function BookSelection() {
+export default async function BookSelection() {
   const [searchQuery, setSearchQuery] = useState("")
   const searchInputRef = useRef<HTMLInputElement>(null)
 
@@ -29,24 +29,24 @@ export default function BookSelection() {
     }
   }, [])
 
-  const filteredBooks = booksMeta.filter(
+  const filteredBooks = (await retrieve_book_metadata()).filter(
     (book) =>
       book.title[0].toLowerCase().includes(searchQuery.toLowerCase()) ||
       book.title[1].includes(searchQuery) ||
-      book.author[0].toLowerCase().includes(searchQuery.toLowerCase()) ||
-      book.author[1].includes(searchQuery),
+      book.author[0][0].toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.author[0][1].includes(searchQuery),
   )
 
   const booksByAuthor = filteredBooks.reduce(
     (acc, book) => {
-      const authorKey = `${book.author[0]}|${book.author[1]}`
+      const authorKey = `${book.author[0][0]}|${book.author[0][1]}`
       if (!acc[authorKey]) {
         acc[authorKey] = []
       }
       acc[authorKey].push(book)
       return acc
     },
-    {} as Record<string, typeof booksMeta>,
+    {} as Record<string, BookMeta[]>,
   )
 
   return (
@@ -102,10 +102,10 @@ export default function BookSelection() {
                     </thead>
                     <tbody>
                       {authorBooks.map((book) => (
-                        <tr key={book.id} className="group border-border transition-colors hover:bg-accent/5">
+                        <tr key={encodeURI(book.filepath)} className="group border-border transition-colors hover:bg-accent/5">
                           <td className="w-1/2 border-border py-3 pr-3 text-right">
                             <Link
-                              href={`/compare/${book.id}`}
+                              href={`/compare/${encodeURI(book.filepath)}`}
                               className="inline-block font-serif text-lg text-foreground transition-colors hover:text-accent"
                               title={book.title[0]}
                             >
@@ -114,7 +114,7 @@ export default function BookSelection() {
                           </td>
                           <td className="w-1/2 py-3 pl-3 text-left">
                             <Link
-                              href={`/compare/${book.id}`}
+                              href={`/compare/${encodeURI(book.filepath)}`}
                               className="inline-block font-serif text-lg text-foreground transition-colors hover:text-accent"
                               title={book.title[1]}
                             >

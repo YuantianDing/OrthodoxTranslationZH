@@ -1,5 +1,5 @@
 import OrthodoxComparison from "@/components/orthodox-comparison"
-import { booksMeta } from "@/lib/books-data";
+import { retrieve_book_metadata } from "@/lib/books-data";
 
 export default async function ComparePage(props: { params: Promise<{ book: string }> }) {
   const params = await props.params;
@@ -7,9 +7,9 @@ export default async function ComparePage(props: { params: Promise<{ book: strin
 }
 
 
-export function getStaticPaths() {
-  // Return a list of possible value for book
+export async function getStaticPaths() {
+  const booksMeta = await retrieve_book_metadata();
   return booksMeta.map(book => ({
-    book: book.id
+    book: book.filepath
   }));
 }

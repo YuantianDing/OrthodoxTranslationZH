@@ -89,8 +89,8 @@ function highlightText(text: string, query: string): React.ReactNode {
   )
 }
 
-export default function OrthodoxComparison({ bookId }: { bookId: string }) {
-  const book = retrieve_book(bookId)
+export default async function OrthodoxComparison({ bookId }: { bookId: string }) {
+  const book = await retrieve_book(bookId)
   if (!book) {
     return (
       <div className="flex flex-col items-center justify-center">
