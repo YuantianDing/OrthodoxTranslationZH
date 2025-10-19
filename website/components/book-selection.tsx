@@ -54,7 +54,7 @@ export default function BookSelection({ metadata} : {metadata: BookMeta[]}) {
             <h1 className="flex-1 text-left font-serif text-4xl font-bold text-foreground">
               {"Православная Литература"}
             </h1>
-            <div className="mx-8 h-12 w-px bg-border" />
+            <div className="mx-8 h-12 w-px" />
             <h1 className="flex-1 text-right font-serif text-4xl font-bold text-foreground">{"东正教文献"}</h1>
           </div>
 
