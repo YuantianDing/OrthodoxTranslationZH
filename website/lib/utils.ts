@@ -48,7 +48,28 @@ export function transliterate(str: string): string {
     .split("")
     .map((char) => translitMap[char] || char)
     .join("")
+    .replace(",", "_")
     .replace(/[^a-z0-9 -\.~]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
+    .replace(/\s+/g, "_")
+    .replace(/-+/g, "_")
+}
+
+export function regexReplaceAll<T>(
+  text: string,
+  regex: RegExp,
+  replacement: (match: RegExpExecArray) => T | undefined
+): (string | T)[] {
+  let match;
+  let result = [];
+  let lastIndex = 0;
+  while ((match = regex.exec(text)) !== null) {
+    const t = replacement(match);
+    if (t !== undefined) {
+      result.push(text.slice(lastIndex, match.index));
+      result.push(t);
+      lastIndex = match.index + match[0].length
+    }
+  }
+  result.push(text.slice(lastIndex));
+  return result;
 }

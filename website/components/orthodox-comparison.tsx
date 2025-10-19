@@ -1,14 +1,15 @@
 "use client"
 
 import { JSX, useEffect, useRef, useState } from "react"
-import { cn } from "@/lib/utils"
+import { cn, regexReplaceAll } from "@/lib/utils"
 import { ChevronDown, ChevronRight, Search, ArrowLeft, HelpCircle } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import type React from "react"
-import type { Block, Heading } from "@/lib/types"
+import type { Block, Book, Heading } from "@/lib/types"
 import { retrieve_book } from "@/lib/books-data"
+import { set } from "react-hook-form"
 
 function FootnoteMarker({
   id,
@@ -49,27 +50,28 @@ function parseTextWithFootnotes(
   if (!footnotes || Object.keys(footnotes).length === 0) {
     return text
   }
-
-  const parts: React.ReactNode[] = []
-  let lastIndex = 0
-  const regex = /\[(\d+)\]/g
-  let match
-
-  while ((match = regex.exec(text)) !== null) {
-    const footnoteId = match[1]
-    const footnote = footnotes[footnoteId]
-
+  return regexReplaceAll(text, /\[([авaв]?\d+)\]/g, match => {
+    const footnoteId = match[1].replace("a", "а").replace("в", "в")
+    const footnote = footnotes[footnoteId]; 
     if (footnote) {
-      parts.push(text.slice(lastIndex, match.index))
-      parts.push(
-        <FootnoteMarker key={`${footnoteId}-${match.index}`} id={footnoteId} footnote={footnote} language={language} />,
-      )
-      lastIndex = match.index + match[0].length
+      return <FootnoteMarker key={`${footnoteId}-${match.index}`} id={footnoteId} footnote={footnote} language={language} />;
     }
-  }
+  })
+}
 
-  parts.push(text.slice(lastIndex))
-  return parts
+function parseText(
+  text: string,
+  footnotes: { [key: string]: [string, string] },
+  language: "russian" | "chinese",
+) : React.ReactNode {
+  let key_id = 0;
+  return regexReplaceAll(text, /「.*?」|«.*?»|（.*?）|\(.*?\)|《.*?》/g, match => {
+    if (match[0][0] === '「' || match[0][0] === '«') {
+      return <span key={key_id++} className="text-content-quote">{parseTextWithFootnotes(match[0], footnotes, language)}</span>
+    } else if (match[0][0] === '（' || match[0][0] === '(' || match[0][0] === '《') {
+      return <span key={key_id++} className="text-content-ref">{parseTextWithFootnotes(match[0], footnotes, language)}</span>
+    }
+  }).map(p => typeof p === 'string' ? parseTextWithFootnotes(p, footnotes, language) : p);
 }
 
 function highlightText(text: string, query: string): React.ReactNode {
@@ -89,22 +91,14 @@ function highlightText(text: string, query: string): React.ReactNode {
   )
 }
 
-export default async function OrthodoxComparison({ bookId }: { bookId: string }) {
-  const book = await retrieve_book(bookId)
-  if (!book) {
-    return (
-      <div className="flex flex-col items-center justify-center">
-        <p className="font-serif text-[30vh] text-muted-foreground">?</p>
-        <p className="text-2xl text-muted-foreground">{"Книга не найдена / 未找到书籍"}</p>
-      </div>
-    )
-  }
+export default function OrthodoxComparison({ book }: { book: Book | null }) {
 
   const [activeSection, setActiveSection] = useState("")
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
   const [searchQuery, setSearchQuery] = useState("")
   const contentRef = useRef<HTMLDivElement>(null)
   const observerRef = useRef<IntersectionObserver | null>(null)
+  const [displayMode, setDisplayMode] = useState<'both' | 'ru' | 'cn'>('both')
 
   const generateBlockId = (block: Block, index: number, parentId = ""): string => {
     const prefix = parentId ? `${parentId}-` : ""
@@ -126,14 +120,14 @@ export default async function OrthodoxComparison({ bookId }: { bookId: string })
     return result
   }
 
-  const allHeadings = flattenBlocks(book.document)
+  const allHeadings = flattenBlocks(book?.document ?? [])
 
   useEffect(() => {
     if (allHeadings.length > 0) {
       setActiveSection(allHeadings[0].id)
       setExpandedSections(new Set(allHeadings.map((h) => h.id)))
     }
-  }, [bookId])
+  }, [book])
 
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
@@ -157,10 +151,35 @@ export default async function OrthodoxComparison({ bookId }: { bookId: string })
     }
   }, [searchQuery])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      console.log("Current Book Data:", displayMode);
+      if (e.key === "z") {
+        if (displayMode !== 'cn') {
+          setDisplayMode('cn')
+        } else {
+          setDisplayMode('both')
+        }
+      }
+      if (e.key === "r") {
+        if (displayMode !== 'cn') {
+          setDisplayMode('cn')
+        } else {
+          setDisplayMode('both')
+        }
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [displayMode, setDisplayMode])
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" })
+      element.scrollIntoView({ behavior: "instant", block: "start" })
     }
   }
 
@@ -185,27 +204,34 @@ export default async function OrthodoxComparison({ bookId }: { bookId: string })
     return russian.toLowerCase().includes(query) || chinese.includes(searchQuery)
   }
 
-  const renderBlock = (block: Block, index: number, parentId = ""): React.ReactNode => {
+  const renderBlock = (block: Block, index: number, parentId = "", displayMode: 'both' | 'cn' | 'ru'): React.ReactNode => {
     const id = generateBlockId(block, index, parentId)
 
-    if (block.type === "paragraph") {
+    if (!block.hasOwnProperty("children")) {
       const [russian, chinese] = block.text
+      if(!russian || !chinese) return null
       if (!matchesSearch(block)) return null
 
       return (
-        <div key={id} className="grid gap-8 md:grid-cols-2">
-          <div className="space-y-2">
+        <div key={id} className={`grid gap-8 ${ (displayMode === 'both' ? 'md:grid-cols-2' : 'grid-cols-1') }`}>
+          <div className="space-y-2" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
             <p className="leading-relaxed text-foreground">
+              {block.initial? <strong>{block.initial[0]}</strong> : null}
               {searchQuery
                 ? highlightText(russian, searchQuery)
-                : parseTextWithFootnotes(russian, book.footnotes, "russian")}
+                : (block.label ?? []).includes("original_title")
+                ? <span key="1" className="text-muted-foreground">{russian}</span>
+                : parseText(russian, book?.footnotes ?? {}, "russian")}
             </p>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
             <p className="leading-relaxed text-foreground">
+              {block.initial? <strong>{block.initial[1]}</strong> : null}
               {searchQuery
                 ? highlightText(chinese, searchQuery)
-                : parseTextWithFootnotes(chinese, book.footnotes, "chinese")}
+                : (block.label ?? []).includes("original_title")
+                ? <span key="1" className="text-muted-foreground">{chinese}</span>
+                : parseText(chinese, book?.footnotes ?? {}, "chinese")}
             </p>
           </div>
         </div>
@@ -227,17 +253,19 @@ export default async function OrthodoxComparison({ bookId }: { bookId: string })
       <div key={index} className="border-b border-border pb-12 last:border-b-0">
         <div key={id} className={level > 2 ? "mt-8" : ""}>
           <section id={id} data-section className="scroll-mt-8">
-            <div className="mb-6 flex items-center justify-between gap-8">
-              <HeaderTag className={cn(headingClasses, "text-left")}>
+            <div className="mb-6 flex items-start justify-between gap-8">
+              <HeaderTag className={cn(headingClasses, "text-right")} style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
+                {block.initial? <strong>{block.initial[0]}</strong> : null}
                 {searchQuery ? highlightText(russian, searchQuery) : russian}
               </HeaderTag>
-              <div className="h-8 w-px" />
-              <HeaderTag className={cn(headingClasses, "text-right")}>
+              {/* <div className="h-8 w-px" /> */}
+              <HeaderTag className={cn(headingClasses, "text-left")} style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
+                {block.initial? <strong>{block.initial[1]}</strong> : null}
                 {searchQuery ? highlightText(chinese, searchQuery) : chinese}
               </HeaderTag>
             </div>
             <div className="space-y-6">
-              {heading.children.map((child, childIndex) => renderBlock(child, childIndex, id))}
+              {heading.children.map((child, childIndex) => renderBlock(child, childIndex, id, displayMode))}
             </div>
           </section>
         </div>
@@ -249,9 +277,11 @@ export default async function OrthodoxComparison({ bookId }: { bookId: string })
     item: { id: string; block: Block; level: number },
     language: "russian" | "chinese",
   ): React.ReactNode => {
-    if (item.block.type === "paragraph") return null
+    if (!item.block.hasOwnProperty("children"))
+        return null
 
-    const heading = item.block as Heading
+    const heading = item.block as unknown as Heading
+
     const title = language === "russian" ? heading.text[0] : heading.text[1]
     const hasChildren = heading.children.some((child) => child.type !== "paragraph")
     const isExpanded = expandedSections.has(item.id)
@@ -287,11 +317,19 @@ export default async function OrthodoxComparison({ bookId }: { bookId: string })
       </li>
     )
   }
+  if (!book) {
+    return (
+      <div className="flex flex-col items-center justify-center">
+        <p className="font-serif text-[30vh] text-muted-foreground">?</p>
+        <p className="text-2xl text-muted-foreground">{"Книга не найдена / 未找到书籍"}</p>
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen max-w-screen bg-background w-full relative">
       <header className="border-b border-border bg-card">
-        <div className="mx-auto max-w-[110vh] px-4 py-6">
+        <div className="mx-auto max-w-[150vh] px-4 py-6">
           <div className="mb-4 flex items-center gap-4">
             <Link href="/">
               <Button variant="ghost" size="sm" className="gap-2">
@@ -311,28 +349,32 @@ export default async function OrthodoxComparison({ bookId }: { bookId: string })
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <h1 className="flex-1 text-left font-serif text-3xl font-bold text-foreground">{book.title[0]}</h1>
+            { (displayMode == 'both' || displayMode == 'ru') &&
+              <h1 className={`flex-1 text-${displayMode == 'both' ? 'left' : 'center'} font-serif text-3xl font-bold text-foreground `}>{book.title[0]}</h1>
+            }
             <div className="mx-8 h-12 w-px" />
-            <h1 className="flex-1 text-right font-serif text-3xl font-bold text-foreground">{book.title[1]}</h1>
+            { (displayMode == 'both' || displayMode == 'cn') &&
+              <h1 className={`flex-1 text-${displayMode == 'both' ? 'right' : 'center'} font-serif text-3xl font-bold text-foreground`}>{book.title[1]}</h1>
+            }
           </div>
         </div>
       </header>
 
-      <div className="mx-auto flex max-w-[110vh]">
-        <aside className="sticky top-0 hidden h-screen w-64 overflow-y-auto border-r border-border p-6 lg:block">
+      <div className="mx-auto flex max-w-[150vh] font-serif">
+        <aside className="sticky top-0 hidden h-screen min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
           <nav>
             <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">{"Содержание"}</h2>
             <ul className="space-y-2">{allHeadings.map((item) => renderTocItem(item, "russian"))}</ul>
           </nav>
         </aside>
 
-        <main className="flex-1 px-4 py-8 md:px-8 bg-card" ref={contentRef}>
-          <div className="mx-auto max-w-5xl space-y-12">
-            {book.document.map((block, index) => renderBlock(block, index))}
+        <main className="flex-1 px-4 py-8 md:px-8 bg-card min-w-2/3 border-x border-border" ref={contentRef}>
+          <div className="mx-auto space-y-12">
+            {book.document.map((block, index) => renderBlock(block, index, undefined, displayMode))}
           </div>
         </main>
 
-        <aside className="sticky top-0 hidden h-screen w-64 overflow-y-auto border-l border-border p-6 lg:block">
+        <aside className="sticky top-0 hidden h-screen min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
           <nav>
             <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">{"目录"}</h2>
             <ul className="space-y-2">{allHeadings.map((item) => renderTocItem(item, "chinese"))}</ul>

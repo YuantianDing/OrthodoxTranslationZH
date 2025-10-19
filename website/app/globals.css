@@ -5,7 +5,7 @@
 
 :root {
   --background: oklch(0.98 0.005 85);
-  --foreground: oklch(0.25 0.01 30);
+  --foreground: #000000;
   --card: oklch(0.99 0.003 85);
   --card-foreground: oklch(0.25 0.01 30);
   --popover: oklch(0.99 0.003 85);
@@ -22,6 +22,8 @@
   --input: oklch(0.8 0.01 40);
   --ring: oklch(0.45 0.12 25);
   --radius: 0.25rem;
+  --content-quote: oklch(0.3182 0.1043 304.38);
+  --content-ref: oklch(0.45 0.12 25);
 }
 
 .dark {
@@ -42,6 +44,8 @@
   --border: oklch(0.35 0.01 30);
   --input: oklch(0.35 0.01 30);
   --ring: oklch(0.65 0.12 35);
+  --content-quote: oklch(0.75 0.25 360);
+  --content-ref: oklch(0.65 0.12 35);
 }
 
 @theme inline {
@@ -83,6 +87,8 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-content-quote: var(--content-quote);
+  --color-content-ref: var(--content-ref);
 }
 
 @layer base {
@@ -97,4 +103,12 @@
 
 body {
   zoom: 120%;
+}
+
+.scrollbar_hidden {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox, Safari 18.2+, Chromium 121+ */
+}
+.scrollbar_hidden::-webkit-scrollbar { 
+  display: none;  /* Older Safari and Chromium */
 }

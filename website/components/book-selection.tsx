@@ -4,14 +4,10 @@ import { useState, useRef, useEffect } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import { BookMeta, retrieve_book_metadata } from "@/lib/books-data"
+import { BookMeta, get_book_id, retrieve_book_metadata } from "@/lib/books-data"
 
-const truncateText = (text: string, maxLength = 30) => {
-  if (text.length <= maxLength) return text
-  return text.slice(0, maxLength) + "..."
-}
 
-export default async function BookSelection() {
+export default function BookSelection({ metadata} : {metadata: BookMeta[]}) {
   const [searchQuery, setSearchQuery] = useState("")
   const searchInputRef = useRef<HTMLInputElement>(null)
 
@@ -29,17 +25,17 @@ export default async function BookSelection() {
     }
   }, [])
 
-  const filteredBooks = (await retrieve_book_metadata()).filter(
+  const filteredBooks = metadata.filter(
     (book) =>
       book.title[0].toLowerCase().includes(searchQuery.toLowerCase()) ||
       book.title[1].includes(searchQuery) ||
-      book.author[0][0].toLowerCase().includes(searchQuery.toLowerCase()) ||
-      book.author[0][1].includes(searchQuery),
+      book.authors[0][0].toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.authors[0][1].includes(searchQuery),
   )
 
   const booksByAuthor = filteredBooks.reduce(
     (acc, book) => {
-      const authorKey = `${book.author[0][0]}|${book.author[0][1]}`
+      const authorKey = `${book.authors[0][0]}|${book.authors[0][1]}`
       if (!acc[authorKey]) {
         acc[authorKey] = []
       }
@@ -92,33 +88,33 @@ export default async function BookSelection() {
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b-1 border-border">
-                        <th className="w-1/2 border-border pt-4 pb-3 pr-3 text-right font-serif text-2xl font-semibold text-foreground">
+                        <th className="max-w-0 truncate w-1/2 border-border pt-4 pb-3 px-3 text-right font-serif text-2xl font-semibold text-foreground">
                           {author}
                         </th>
-                        <th className="w-1/2 pt-4 pb-3 pl-3 text-left font-serif text-2xl font-semibold text-foreground">
+                        <th className="max-w-0 truncate w-1/2 pt-4 pb-3 px-3 text-left font-serif text-2xl font-semibold text-foreground">
                           {authorChinese}
                         </th>
                       </tr>
                     </thead>
                     <tbody>
                       {authorBooks.map((book) => (
-                        <tr key={encodeURI(book.filepath)} className="group border-border transition-colors hover:bg-accent/5">
-                          <td className="w-1/2 border-border py-3 pr-3 text-right">
+                        <tr key={get_book_id(book)} className="group border-border transition-colors hover:bg-accent/5">
+                          <td className="max-w-0 w-1/2 truncate border-border py-3 px-3 text-right">
                             <Link
-                              href={`/compare/${encodeURI(book.filepath)}`}
-                              className="inline-block font-serif text-lg text-foreground transition-colors hover:text-accent"
+                              href={`/compare/${get_book_id(book)}`}
+                              className="truncate font-serif text-lg text-foreground transition-colors hover:text-accent"
                               title={book.title[0]}
                             >
-                              {truncateText(book.title[0])}
+                              {book.title[0]}
                             </Link>
                           </td>
-                          <td className="w-1/2 py-3 pl-3 text-left">
+                          <td className="max-w-0 w-1/2 truncate py-3 px-3 text-left">
                             <Link
-                              href={`/compare/${encodeURI(book.filepath)}`}
-                              className="inline-block font-serif text-lg text-foreground transition-colors hover:text-accent"
+                              href={`/compare/${get_book_id(book)}`}
+                              className="truncate font-serif text-lg text-foreground transition-colors hover:text-accent"
                               title={book.title[1]}
                             >
-                              {truncateText(book.title[1])}
+                              {book.title[1]}
                             </Link>
                           </td>
                         </tr>
