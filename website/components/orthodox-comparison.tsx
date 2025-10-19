@@ -216,7 +216,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
         <div key={id} className={`grid gap-8 ${ (displayMode === 'both' ? 'md:grid-cols-2' : 'grid-cols-1') }`}>
           <div className="space-y-2" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
             <p className="leading-relaxed text-foreground">
-              {block.initial? <strong>{block.initial[0]}</strong> : null}
+              {block.initial? <strong className="mr-1">{block.initial[0]}</strong> : null}
               {searchQuery
                 ? highlightText(russian, searchQuery)
                 : (block.label ?? []).includes("original_title")
@@ -226,7 +226,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
           </div>
           <div className="space-y-2" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
             <p className="leading-relaxed text-foreground">
-              {block.initial? <strong>{block.initial[1]}</strong> : null}
+              {block.initial? <strong className="mr-1">{block.initial[1]}</strong> : null}
               {searchQuery
                 ? highlightText(chinese, searchQuery)
                 : (block.label ?? []).includes("original_title")
@@ -344,8 +344,26 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
                 placeholder="Поиск в тексте / 搜索文本..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9"
+                className="pl-9 h-9"
               />
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  setDisplayMode((prev) => {
+                    if (prev === "both") return "cn"
+                    if (prev === "cn") return "ru"
+                    return "both"
+                  })
+                }
+                className="w-20 h-9"
+              >
+                {displayMode === "both" && "Ру | 中"}
+                {displayMode === "ru" && "Русский"}
+                {displayMode === "cn" && "中文"}
+              </Button>
             </div>
           </div>
           <div className="flex items-center justify-between">
