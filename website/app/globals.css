@@ -112,3 +112,14 @@ body {
 .scrollbar_hidden::-webkit-scrollbar { 
   display: none;  /* Older Safari and Chromium */
 }
+
+display-unset {
+  display: unset;
+}
+display-initial {
+  display: initial;
+}
+
+h-screen-wo-search-bar {
+  height: calc(100% - 71.25px);
+}

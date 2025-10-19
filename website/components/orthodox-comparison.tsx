@@ -2,7 +2,7 @@
 
 import { JSX, useEffect, useRef, useState } from "react"
 import { cn, regexReplaceAll } from "@/lib/utils"
-import { ChevronDown, ChevronRight, Search, ArrowLeft, HelpCircle } from "lucide-react"
+import { ChevronDown, ChevronRight, Search, ArrowLeft, Menu } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -154,20 +154,20 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       console.log("Current Book Data:", displayMode);
-      if (e.key === "z") {
-        if (displayMode !== 'cn') {
-          setDisplayMode('cn')
-        } else {
-          setDisplayMode('both')
-        }
-      }
-      if (e.key === "r") {
-        if (displayMode !== 'cn') {
-          setDisplayMode('cn')
-        } else {
-          setDisplayMode('both')
-        }
-      }
+      // if (e.key === "z") {
+      //   if (displayMode !== 'cn') {
+      //     setDisplayMode('cn')
+      //   } else {
+      //     setDisplayMode('both')
+      //   }
+      // }
+      // if (e.key === "r") {
+      //   if (displayMode !== 'cn') {
+      //     setDisplayMode('cn')
+      //   } else {
+      //     setDisplayMode('both')
+      //   }
+      // }
     }
 
     document.addEventListener("keydown", handleKeyDown)
@@ -254,13 +254,13 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
         <div key={id} className={level > 2 ? "mt-8" : ""}>
           <section id={id} data-section className="scroll-mt-8">
             <div className="mb-6 flex items-start justify-between gap-8">
-              <HeaderTag className={cn(headingClasses, "text-right")} style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
-                {block.initial? <strong>{block.initial[0]}</strong> : null}
+              <HeaderTag className={cn(headingClasses, "text-left")} style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
+                {block.initial? <strong className="pr-1">{block.initial[0]}</strong> : null}
                 {searchQuery ? highlightText(russian, searchQuery) : russian}
               </HeaderTag>
               {/* <div className="h-8 w-px" /> */}
               <HeaderTag className={cn(headingClasses, "text-left")} style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
-                {block.initial? <strong>{block.initial[1]}</strong> : null}
+                {block.initial? <strong className="pr-1">{block.initial[1]}</strong> : null}
                 {searchQuery ? highlightText(chinese, searchQuery) : chinese}
               </HeaderTag>
             </div>
@@ -305,7 +305,21 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
             <span className="w-4" />
           )}
           <button
-            onClick={() => scrollToSection(item.id)}
+            onClick={() => {
+              if(window.screen.width < 1024) {
+                const main = document.querySelector('main');
+                const tocRu = document.querySelector('aside:nth-of-type(1)');
+                const tocCn = document.querySelector('aside:nth-of-type(2)');
+                const title = document.querySelector('header:nth-of-type(2)');
+                if (main) main.classList.remove('hidden');
+                if (tocRu) tocRu.classList.add('hidden');
+                if (tocCn) tocCn.classList.add('hidden');
+                if (title) title.classList.remove('hidden');
+                setTimeout(() => { scrollToSection(item.id); }, 0);
+              } else {
+                scrollToSection(item.id);
+              }
+            }}
             className={cn(
               "flex-1 text-left text-sm transition-colors hover:text-accent",
               activeSection === item.id ? "font-semibold text-accent" : "text-muted-foreground",
@@ -327,14 +341,15 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
   }
 
   return (
-    <div className="min-h-screen max-w-screen bg-background w-full relative">
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto max-w-[150vh] px-4 py-6">
-          <div className="mb-4 flex items-center gap-4">
+    <div className="min-h-screen max-w-screen bg-background w-full">
+      <header className="bg-card w-full sticky top-0 z-50">
+        <div className="mx-auto max-w-[150vh] px-4 pb-4 pt-6 ">
+          <div className="flex items-center gap-4">
             <Link href="/">
               <Button variant="ghost" size="sm" className="gap-2">
                 <ArrowLeft className="h-4 w-4" />
-                {"Назад / 返回"}
+                <span className="hidden lg:inline">{"Назад / 返回"}</span>
+                <span className="inline lg:hidden">{"返回"}</span>
               </Button>
             </Link>
             <div className="relative flex-1">
@@ -365,21 +380,45 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
                 {displayMode === "cn" && "中文"}
               </Button>
             </div>
+            <div className="lg:hidden">
+              <Button
+              variant="outline"
+              size="icon"
+              onClick={() => {
+                  const main = document.querySelector('main');
+                  const tocRu = document.querySelector('aside:nth-of-type(1)');
+                  const tocCn = document.querySelector('aside:nth-of-type(2)');
+                  const title = document.querySelector('header:nth-of-type(2)');
+                  if (main) main.classList.toggle('hidden');
+                  if (tocRu) tocRu.classList.toggle('hidden');
+                  if (tocCn) tocCn.classList.toggle('hidden');
+                  if (title) title.classList.toggle('hidden');
+              }}
+              className="h-9 w-9"
+              >
+              <Menu className="h-4 w-4"/>
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center justify-between">
+        </div>
+      </header>
+      <header className="bg-card w-full">
+        <div className="mx-auto max-w-[150vh] px-4 pb-6">
+          <div className="flex items-center justify-between h-12">
             { (displayMode == 'both' || displayMode == 'ru') &&
               <h1 className={`flex-1 text-${displayMode == 'both' ? 'left' : 'center'} font-serif text-3xl font-bold text-foreground `}>{book.title[0]}</h1>
             }
-            <div className="mx-8 h-12 w-px" />
+            {/* <div className="mx-8  w-px" /> */}
             { (displayMode == 'both' || displayMode == 'cn') &&
               <h1 className={`flex-1 text-${displayMode == 'both' ? 'right' : 'center'} font-serif text-3xl font-bold text-foreground`}>{book.title[1]}</h1>
             }
           </div>
         </div>
       </header>
+      <div className="w-full bg-border h-[1px] sticky top-[71.25px]"/>
 
       <div className="mx-auto flex max-w-[150vh] font-serif">
-        <aside className="sticky top-0 hidden h-screen min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
+        <aside className="sticky top-[71.25px] hidden h-screen min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
           <nav>
             <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">{"Содержание"}</h2>
             <ul className="space-y-2">{allHeadings.map((item) => renderTocItem(item, "russian"))}</ul>
@@ -392,7 +431,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
           </div>
         </main>
 
-        <aside className="sticky top-0 hidden h-screen min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
+        <aside className="sticky top-[71.25px] hidden h-screen min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
           <nav>
             <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">{"目录"}</h2>
             <ul className="space-y-2">{allHeadings.map((item) => renderTocItem(item, "chinese"))}</ul>

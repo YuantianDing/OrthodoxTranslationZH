@@ -51,16 +51,16 @@ export default function BookSelection({ metadata} : {metadata: BookMeta[]}) {
       <header className="border-b border-border bg-card">
         <div className="mx-auto max-w-7xl px-4 py-8">
           <div className="mb-6 flex items-center justify-between">
-            <h1 className="flex-1 text-left font-serif text-4xl font-bold text-foreground">
+            <h1 className="flex-1 font-serif text-4xl font-bold text-foreground text-left max-md:hidden">
               {"Православная Литература"}
             </h1>
-            <div className="mx-8 h-12 w-px" />
-            <h1 className="flex-1 text-right font-serif text-4xl font-bold text-foreground">{"东正教文献"}</h1>
+            {/* <div className="mx-8 h-12 w-px" /> */}
+            <h1 className="flex-1 text-right font-serif text-4xl font-bold text-foreground max-md:text-center">{"东正教文献"}</h1>
           </div>
 
           {/* Search Bar */}
           <div className="relative mx-auto max-w-2xl">
-            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground " />
             <Input
               ref={searchInputRef}
               type="text"
@@ -88,10 +88,10 @@ export default function BookSelection({ metadata} : {metadata: BookMeta[]}) {
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b-1 border-border">
-                        <th className="max-w-0 truncate w-1/2 border-border pt-4 pb-3 px-3 text-right font-serif text-2xl font-semibold text-foreground">
+                        <th className="max-w-0 truncate w-1/2 border-border pt-4 pb-3 px-3 text-right font-serif text-2xl font-semibold text-foreground max-md:hidden">
                           {author}
                         </th>
-                        <th className="max-w-0 truncate w-1/2 pt-4 pb-3 px-3 text-left font-serif text-2xl font-semibold text-foreground">
+                        <th className="max-w-0 truncate w-1/2 pt-4 pb-3 px-3 text-left font-serif text-2xl font-semibold text-foreground max-md:text-center max-md:w-full">
                           {authorChinese}
                         </th>
                       </tr>
@@ -99,7 +99,7 @@ export default function BookSelection({ metadata} : {metadata: BookMeta[]}) {
                     <tbody>
                       {authorBooks.map((book) => (
                         <tr key={get_book_id(book)} className="group border-border transition-colors hover:bg-accent/5">
-                          <td className="max-w-0 w-1/2 truncate border-border py-3 px-3 text-right">
+                          <td className="max-w-0 w-1/2 truncate border-border py-3 px-3 text-right max-md:hidden">
                             <Link
                               href={`/compare/${get_book_id(book)}`}
                               className="truncate font-serif text-lg text-foreground transition-colors hover:text-accent"
@@ -108,7 +108,7 @@ export default function BookSelection({ metadata} : {metadata: BookMeta[]}) {
                               {book.title[0]}
                             </Link>
                           </td>
-                          <td className="max-w-0 w-1/2 truncate py-3 px-3 text-left">
+                          <td className="max-w-0 w-1/2 truncate py-3 px-3 text-left  max-md:text-center max-md:w-full">
                             <Link
                               href={`/compare/${get_book_id(book)}`}
                               className="truncate font-serif text-lg text-foreground transition-colors hover:text-accent"
