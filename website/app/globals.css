@@ -121,5 +121,5 @@ display-initial {
 }
 
 h-screen-wo-search-bar {
-  height: calc(100% - 71.25px);
+  height: calc(100vh - 71.25px);
 }
