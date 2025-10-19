@@ -98,7 +98,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
   const [searchQuery, setSearchQuery] = useState("")
   const contentRef = useRef<HTMLDivElement>(null)
   const observerRef = useRef<IntersectionObserver | null>(null)
-  const [displayMode, setDisplayMode] = useState<'both' | 'ru' | 'cn'>('both')
+  const [displayMode, setDisplayMode] = useState<'both' | 'ru' | 'cn'>(window.screen.width < 1024 ? 'cn' : 'both')
 
   const generateBlockId = (block: Block, index: number, parentId = ""): string => {
     const prefix = parentId ? `${parentId}-` : ""
