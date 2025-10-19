@@ -11,7 +11,7 @@ def generate_metadata():
             "filepath": str(path),
             "title": data.get("title", "Unknown Title"),
             "authors": data.get("authors", "Unknown Author"),
-            "languages": data.get("language", []),
+            "languages": data.get("languages", []),
         })
     with open("metadata.yaml", "w") as f:
         yaml.dump(metadata, f, sort_keys=False, allow_unicode=True, width=12897218347)

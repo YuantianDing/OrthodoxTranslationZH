@@ -7,8 +7,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: '东正教著作',
+  description: '俄语东正教书籍，LLM 翻译，书籍偷自 azbyka.ru，页面用 v0 生成。',
   generator: 'v0.app',
 }
 

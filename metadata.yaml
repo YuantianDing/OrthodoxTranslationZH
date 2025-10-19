@@ -5,7 +5,9 @@
   authors:
   - cn: 圣尼基福罗斯·费奥托基斯
     ru: Святой Никифор Феотокис
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣巴尔撒努菲乌斯及圣约翰先知/问答录/book.yaml
   title:
     ru: Вопросы и ответы
@@ -15,7 +17,9 @@
     cn: 圣巴尔撒努菲乌斯
   - ru: Святой Иоанн Пророк
     cn: 圣约翰先知
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 阿爸多罗修斯/有益灵魂的训诲与书信/book.yaml
   title:
     ru: Душеполезные поучения и послания
@@ -23,7 +27,9 @@
   authors:
   - cn: 阿爸多罗修斯
     ru: Авва Дорофей
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣季米特里罗斯托夫斯基/属灵字母表/book.yaml
   title:
     ru: Алфавит духовный
@@ -31,7 +37,9 @@
   authors:
   - ru: святитель Димитрий, митрополит Ростовский
     cn: 圣大主教狄米特里，罗斯托夫都主教
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣约翰金口/马太福音注释/book.yaml
   title:
     ru: Беседы на Евангелие от Матфея
@@ -39,7 +47,9 @@
   authors:
   - ru: святитель Иоанн Златоуст
     cn: 圣约翰金口
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣约翰金口/道德和禁欲著作/book.yaml
   title:
     ru: Нравственные и аскетические сочинения
@@ -47,7 +57,9 @@
   authors:
   - ru: святитель Иоанн Златоуст
     cn: 圣约翰金口
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣伊格纳季·布良查尼诺夫/苦行经验/book.yaml
   title:
     ru: Аскетические опыты
@@ -55,7 +67,9 @@
   authors:
   - cn: 圣伊格纳季·布良查尼诺夫
     ru: Святитель Игнатий (Брянчанинов)
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣伊格纳季·布良查尼诺夫/精选书信/book.yaml
   title:
     ru: Избранные письма
@@ -63,7 +77,9 @@
   authors:
   - cn: 圣伊格纳季·布良查尼诺夫
     ru: Святитель Игнатий (Брянчанинов)
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣伊格纳季·布良查尼诺夫/苦行布道/book.yaml
   title:
     ru: Аскетическая проповедь
@@ -71,7 +87,9 @@
   authors:
   - cn: 圣伊格纳季·布良查尼诺夫
     ru: Святитель Игнатий (Брянчанинов)
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 隐士圣格奥尔基/书信/book.yaml
   title:
     ru: Письма
@@ -79,7 +97,9 @@
   authors:
   - cn: 隐士圣格奥尔基
     ru: Преподобный Георгий Затворник
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 叙利亚的圣以弗冷/作品/book.yaml
   title:
     ru: Творения
@@ -87,7 +107,9 @@
   authors:
   - cn: 叙利亚的圣以弗冷
     ru: Святой Ефрем Сирин
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣彼得·莫希拉/东方公教会和使徒教会的正统告白/book.yaml
   title:
     ru: Православное исповедание Кафолической и Апостольской Церкви Восточной
@@ -95,7 +117,9 @@
   authors:
   - cn: 圣彼得·莫希拉
     ru: Петр Могила
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 隐居者圣西奥凡/何为属灵生活以及如何调整至其中/book.yaml
   title:
     ru: Что есть духовная жизнь и как на неё настроиться
@@ -103,7 +127,9 @@
   authors:
   - cn: 隐居者圣西奥凡
     ru: Преподобный Серафим Саровский
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 隐居者圣西奥凡/祈祷书信/book.yaml
   title:
     ru: Письма о молитве*
@@ -111,7 +137,9 @@
   authors:
   - ru: свт. Феофан Затворник
     cn: 圣隐士费奥凡
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 隐居者圣西奥凡/关于祈祷/book.yaml
   title:
     ru: О молитве*
@@ -119,7 +147,9 @@
   authors:
   - cn: 隐居者圣西奥凡
     ru: Преподобный Серафим Саровский
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 隐居者圣西奥凡/圣父论祈祷与警醒/book.yaml
   title:
     ru: Святые отцы о молитве и трезвении
@@ -127,7 +157,9 @@
   authors:
   - cn: 隐居者圣西奥凡
     ru: Преподобный Серафим Саровский
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 隐居者圣西奥凡/无形战/book.yaml
   title:
     en: Unseen Warfare
@@ -137,7 +169,9 @@
     ru: Преподобный Серафим Саровский
   - cn: 圣山圣尼哥底母
     ru: Святой Никодим Святогорец
-  languages: []
+  languages:
+  - en
+  - cn
 - filepath: 隐居者圣西奥凡/如何学习祈祷/book.yaml
   title:
     ru: Как научиться молиться
@@ -145,7 +179,9 @@
   authors:
   - cn: 隐居者圣西奥凡
     ru: Преподобный Серафим Саровский
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 隐居者圣西奥凡/救赎之路-简明禁欲主义纲要/book.yaml
   title:
     ru: Путь ко спасению. Краткий очерк аскетики
@@ -153,7 +189,9 @@
   authors:
   - cn: 隐居者圣西奥凡
     ru: Преподобный Серафим Саровский
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣季洪·扎东斯基/关于每个基督徒个人责任的训诫/book.yaml
   title:
     ru: Наставления о личных обязанностях каждого христианина*
@@ -161,7 +199,9 @@
   authors:
   - ru: Святитель Тихон Задонский
     cn: 圣主教季洪·扎东斯基
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣季洪·扎东斯基/关于真正的基督教/book.yaml
   title:
     ru: Об истинном христианстве
@@ -169,7 +209,9 @@
   authors:
   - ru: Святитель Тихон Задонский
     cn: 圣主教季洪·扎东斯基
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣季洪·扎东斯基/属灵宝藏，世界收集/book.yaml
   title:
     ru: Сокровище духовное от мира собираемое
@@ -177,7 +219,9 @@
   authors:
   - ru: Святитель Тихон Задонский
     cn: 圣主教季洪·扎东斯基
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣狄奥多尔·斯图狄乌斯/教理讲章/book.yaml
   title:
     ru: Об истинном христианстве
@@ -185,7 +229,9 @@
   authors:
   - ru: Преподобный Феодор Студит
     cn: 可敬者提奥多尔·斯图狄乌斯
-  languages: []
+  languages:
+  - ru
+  - cn
 - filepath: 圣约翰托博尔斯基/天芥菜/book.yaml
   title:
     ru: Илиотропион
@@ -193,4 +239,6 @@
   authors:
   - cn: 圣约翰托博尔斯基
     ru: Святитель Иоанн (Максимович) Тобольский
-  languages: []
+  languages:
+  - ru
+  - cn
