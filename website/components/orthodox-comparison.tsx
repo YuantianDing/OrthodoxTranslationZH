@@ -184,7 +184,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      element.scrollIntoView({ behavior: "instant", block: "start" })
+      element.scrollIntoView({ behavior: "instant", block: "center" })
     }
   }
 
