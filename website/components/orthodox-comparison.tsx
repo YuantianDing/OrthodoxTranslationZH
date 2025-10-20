@@ -423,7 +423,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
       <div className="w-full bg-border h-[1px] sticky top-[71.25px]"/>
 
       <div className="mx-auto flex max-w-[150vh] font-serif">
-        <aside className="sticky top-[71.25px] hidden h-screen-wo-search-bar min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
+        <aside className="sticky top-[71.25px] hidden h-screen-no-search min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
           <nav>
             <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">{"Содержание"}</h2>
             <ul className="space-y-2">{allHeadings.map((item) => renderTocItem(item, "russian"))}</ul>
@@ -436,7 +436,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
           </div>
         </main>
 
-        <aside className="sticky top-[71.25px] hidden h-screen-wo-search-bar min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
+        <aside className="sticky top-[71.25px] hidden h-screen-no-search min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
           <nav>
             <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">{"目录"}</h2>
             <ul className="space-y-2">{allHeadings.map((item) => renderTocItem(item, "chinese"))}</ul>

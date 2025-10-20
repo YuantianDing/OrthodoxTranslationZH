@@ -113,13 +113,13 @@ body {
   display: none;  /* Older Safari and Chromium */
 }
 
-display-unset {
+.display-unset {
   display: unset;
 }
-display-initial {
+.display-initial {
   display: initial;
 }
 
-h-screen-wo-search-bar {
+.h-screen-no-search {
   height: calc(100vh - 71.25px);
 }
