@@ -99,10 +99,18 @@
     @apply bg-background text-foreground;
   }
 }
-
+html,
+body {
+   margin: 0;
+   padding: 0;
+}
 
 body {
   zoom: 120%;
+}
+
+.h-screen-no-search {
+  height: calc(83.3vh - 71.25px); /* Adjusted height to account for ZOOM and Search Bar */
 }
 
 .scrollbar_hidden {
@@ -118,8 +126,4 @@ body {
 }
 .display-initial {
   display: initial;
-}
-
-.h-screen-no-search {
-  height: calc(100vh - 71.25px);
 }

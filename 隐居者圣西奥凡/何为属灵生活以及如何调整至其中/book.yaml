@@ -5,20 +5,6 @@ authors:
 - cn: 闭关者圣提奥凡
   ru: Святитель Феофан Затворник
 document:
-- type: heading4
-  text:
-    ru: Введение
-    cn: 导言
-  children:
-  - type: paragraph
-    text:
-      ru: АУДИО
-      cn: 音频
-- type: heading1
-  text:
-    ru: Что есть духовная жизнь и как на неё настроиться
-    cn: 何谓属灵生命，以及如何调校自身以契合之
-  children: []
 - type: heading1
   initial:
     ru: '1.'

@@ -30,7 +30,7 @@ function FootnoteMarker({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        [{id}]
+        {id}
       </sup>
       {isHovered && (
         <span className="absolute bottom-full left-1/2 z-50 mb-2 w-64 -translate-x-1/2 rounded-md border border-border bg-card p-3 text-sm leading-relaxed text-foreground shadow-lg">
@@ -159,20 +159,21 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       console.log("Current Book Data:", displayMode);
-      // if (e.key === "z") {
-      //   if (displayMode !== 'cn') {
-      //     setDisplayMode('cn')
-      //   } else {
-      //     setDisplayMode('both')
-      //   }
-      // }
-      // if (e.key === "r") {
-      //   if (displayMode !== 'cn') {
-      //     setDisplayMode('cn')
-      //   } else {
-      //     setDisplayMode('both')
-      //   }
-      // }
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
+      if (e.key === "z") {
+        if (displayMode !== 'cn') {
+          setDisplayMode('cn')
+        } else {
+          setDisplayMode('both')
+        }
+      }
+      if (e.key === "r") {
+        if (displayMode !== 'ru') {
+          setDisplayMode('ru')
+        } else {
+          setDisplayMode('both')
+        }
+      }
     }
 
     document.addEventListener("keydown", handleKeyDown)
@@ -184,7 +185,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      element.scrollIntoView({ behavior: "instant", block: "center" })
+      element.scrollIntoView({ behavior: "instant", block: "start" })
     }
   }
 
@@ -257,7 +258,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
     return (
       <div key={index} className="border-b border-border pb-12 last:border-b-0">
         <div key={id} className={level > 2 ? "mt-8" : ""}>
-          <section id={id} data-section className="scroll-mt-8">
+          <section id={id} data-section className="scroll-mt-[80px]">
             <div className="mb-6 flex items-start justify-between gap-8">
               <HeaderTag className={cn(headingClasses, "text-left")} style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
                 {block.initial? <strong className="pr-1">{block.initial[0]}</strong> : null}
@@ -288,6 +289,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
     const heading = item.block as unknown as Heading
 
     const title = language === "russian" ? heading.text[0] : heading.text[1]
+    const initial = heading.initial? (language === "russian" ? heading.initial[0] : heading.initial[1]) : null;
     const hasChildren = heading.children.some((child) => child.type !== "paragraph")
     const isExpanded = expandedSections.has(item.id)
     const indent = (item.level - 2) * 16
@@ -330,7 +332,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
               activeSection === item.id ? "font-semibold text-accent" : "text-muted-foreground",
             )}
           >
-            {title}
+            {initial} {title}
           </button>
         </div>
       </li>
@@ -423,7 +425,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
       <div className="w-full bg-border h-[1px] sticky top-[71.25px]"/>
 
       <div className="mx-auto flex max-w-[150vh] font-serif">
-        <aside className="sticky top-[71.25px] hidden h-screen-no-search min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
+        <aside className="sticky top-[71.25px] hidden h-screen-no-search box-border min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
           <nav>
             <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">{"Содержание"}</h2>
             <ul className="space-y-2">{allHeadings.map((item) => renderTocItem(item, "russian"))}</ul>
@@ -436,7 +438,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
           </div>
         </main>
 
-        <aside className="sticky top-[71.25px] hidden h-screen-no-search min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
+        <aside className="sticky top-[71.25px] hidden h-screen-no-search box-border min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
           <nav>
             <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">{"目录"}</h2>
             <ul className="space-y-2">{allHeadings.map((item) => renderTocItem(item, "chinese"))}</ul>
