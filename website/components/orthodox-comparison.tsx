@@ -91,7 +91,9 @@ function highlightText(text: string, query: string): React.ReactNode {
   )
 }
 
-export default function OrthodoxComparison({ book }: { book: Book | null }) {
+export default function OrthodoxComparison({ book, bookId }: {
+  book: Book | null, bookId: string
+}) {
 
   const [activeSection, setActiveSection] = useState("")
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
@@ -126,6 +128,10 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
     if(window.screen.width < 1024) {
       setDisplayMode('cn');
     }
+    const position = window.localStorage.getItem(bookId + ":last_position");
+    if (position) {
+      scrollToSection(position);
+    }
   }, [])
   useEffect(() => {
     if (allHeadings.length > 0) {
@@ -141,6 +147,7 @@ export default function OrthodoxComparison({ book }: { book: Book | null }) {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id)
           }
+          window.localStorage.setItem(bookId + ":last_position", entry.target.id);
         })
       },
       {

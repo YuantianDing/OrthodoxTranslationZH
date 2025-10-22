@@ -140,5 +140,5 @@ if __name__ == "__main__":
 
                 for footnote in book['footnotes'].values():
                     translate_lang_text(footnote, languages=book['languages'])
-        if os.path.abs(workdir) == os.path.dirname(os.path.abs(__file__)):
+        if os.path.abspath(workdir) == os.path.dirname(os.path.abspath(__file__)):
             generate_metadata()

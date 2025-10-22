@@ -4,7 +4,7 @@ import { get_book_id, retrieve_book, retrieve_book_metadata } from "@/lib/books-
 export default async function ComparePage(props: { params: Promise<{ book: string }> }) {
   const params = await props.params;
   const book = await retrieve_book(params.book.replaceAll("-", "/"));
-  return <OrthodoxComparison book={book} />
+  return <OrthodoxComparison book={book} bookId={params.book}/>
 }
 
 
