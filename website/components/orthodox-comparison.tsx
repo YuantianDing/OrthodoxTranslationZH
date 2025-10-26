@@ -50,9 +50,9 @@ function parseTextWithFootnotes(
   if (!footnotes || Object.keys(footnotes).length === 0) {
     return text
   }
-  return regexReplaceAll(text, /\[([авaв]?\d+)\]/g, match => {
-    const footnoteId = match[1].replace("a", "а").replace("в", "в")
-    const footnote = footnotes[footnoteId]; 
+  return regexReplaceAll(text, /\[(\d+)\]/g, match => {
+    const footnoteId = match[1]
+    const footnote = footnotes[`[${footnoteId}]`]; 
     if (footnote) {
       return <FootnoteMarker key={`${footnoteId}-${match.index}`} id={footnoteId} footnote={footnote} language={language} />;
     }
