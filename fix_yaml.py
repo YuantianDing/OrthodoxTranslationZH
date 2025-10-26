@@ -136,6 +136,10 @@ if __name__ == "__main__":
                         translate_lang_text(author, languages=book['languages'])
                         authors.append(author)
                     book['authors'] = authors
+                
+                book['footnotes'] = {(str(k) if str(k).startswith('[') else f"[{k}]"): v for k, v in book['footnotes'].items()}
+                
+
 
                 for block in book["document"]:
                     translate_block(block, languages=book['languages'])

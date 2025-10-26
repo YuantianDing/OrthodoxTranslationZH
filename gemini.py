@@ -41,7 +41,7 @@ def translate(text: str, lang: str = 'cn') -> str:
 def test_translated_result(lang: str, text: str, translated: str) -> bool:
     if translated is None or translated.strip() == "":
         return False
-    if any(x in translated for x in ["译文", "翻译", "脚注", "译注", "译者注"]) and not any(x in text.lower() for x in ["перевод", "перевести", "примечание", "примечания", "толковат"]):
+    if any(x in translated for x in ["译文", "翻译", "脚注", "译注", "译者注"]) and not any(x in text.lower() for x in ["перевод", "перевести", "примечание", "примечания", "толковат", "Прим, перев"]):
         return False
     if any(x in translated for x in ["39:78", "TEXT END"]):
         return False
