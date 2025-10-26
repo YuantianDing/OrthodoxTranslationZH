@@ -76,6 +76,8 @@ def translate_lang_text(text: dict[str, str], languages: list[str]) -> bool:
         if lang not in text or text_retranslate:
             if not re.search(r'[^\d\W]', text[languages[0]]):
                 text[lang] = text[languages[0]]
+            elif m := re.search(r'^Глава (\d+)\.?$', text[languages[0]]):
+                text[lang] = f"第 {m.group(1)} 章"
             elif ask_ai_permission():
                 while True:
                     try:

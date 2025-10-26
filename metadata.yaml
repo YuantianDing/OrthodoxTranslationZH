@@ -127,8 +127,10 @@
   authors:
   - cn: 闭关者圣提奥凡
     ru: Святитель Феофан Затворник
+    en: St. Theophan the Recluse
   - cn: 圣山圣尼哥底母
     ru: Святой Никодим Святогорец
+    en: St. Nicodemos the Hagiorite
   languages:
   - en
   - cn
@@ -182,6 +184,15 @@
   languages:
   - ru
   - cn
+- filepath: 圣伊格纳季·布连柴尼诺夫/现代修道献呈/book.yaml
+  title:
+    ru: Приношение современному монашеству
+    cn: 现代修道献呈
+  authors:
+  - cn: 圣伊格纳季·布连柴尼诺夫
+    ru: Святитель Игнатий (Брянчанинов)
+  languages:
+  - ru
 - filepath: 圣伊格纳季·布连柴尼诺夫/苦行经验/book.yaml
   title:
     ru: Аскетические опыты
