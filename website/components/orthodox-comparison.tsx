@@ -170,26 +170,32 @@ export default function OrthodoxComparison({ book, bookId }: {
     const handleKeyDown = async (e: KeyboardEvent) => {
       if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
       if (e.key === "z") {
-        if (displayMode !== 'cn') {
-          setDisplayMode('cn')
-        } else {
+        if (displayMode === 'ru') {
           setDisplayMode('both')
+        } else {
+          setDisplayMode('ru')
         }
       }
       if (e.key === "r") {
-        if (displayMode !== 'ru') {
-          setDisplayMode('ru')
-        } else {
+        if (displayMode === 'cn') {
           setDisplayMode('both')
+        } else {
+          setDisplayMode('cn')
         }
       }
       if (e.key == 'c') {
-        const a = (window.getSelection() as any)?.anchorNode?.parentNode?.parentNode?.parentNode?.id;
-        if (typeof a == 'string') {
+        let node = (window.getSelection() as any)?.anchorNode;
+        let a: string | null = null;
+        while(node && (typeof a !== 'string' || !a.startsWith('b'))) {
+          a = node.id;
+          node = node.parentNode;
+        }
+        if (typeof a === 'string') {
+          console.log(a);
           let url = window.location.href.split('?')[0]
-          if (!url.endsWith('.html')) {
-            url += '.html'
-          }
+          // if (!url.endsWith('.html')) {
+          //   url += '.html'
+          // }
           await navigator.clipboard.writeText(
             window.getSelection()!.toString().trim() + `[（${book?.authors[0][1]} ${book?.title[1]}）](${url}?block=${a})`
           );
@@ -371,7 +377,7 @@ export default function OrthodoxComparison({ book, bookId }: {
   return (
     <div className="min-h-screen max-w-screen bg-background w-full">
       <header className="bg-card w-full sticky top-0 z-50">
-        <div className="mx-auto max-w-[150vh] px-4 pb-4 pt-6 ">
+        <div className="mx-auto max-w-[1440px] px-4 pb-4 pt-6 ">
           <div className="flex items-center gap-4">
             <Link href="/">
               <Button variant="ghost" size="sm" className="gap-2">
@@ -431,7 +437,7 @@ export default function OrthodoxComparison({ book, bookId }: {
         </div>
       </header>
       <header className="bg-card w-full">
-        <div className="mx-auto max-w-[150vh] px-4 pb-6">
+        <div className="mx-auto max-w-[1440px] px-4 pb-6">
           <div className="flex items-center justify-between h-12">
             { (displayMode == 'both' || displayMode == 'ru') &&
               <h1 className={`flex-1 text-${displayMode == 'both' ? 'left' : 'center'} font-serif text-3xl font-bold text-foreground `}>{book.title[0]}</h1>
@@ -445,7 +451,7 @@ export default function OrthodoxComparison({ book, bookId }: {
       </header>
       <div className="w-full bg-border h-[1px] sticky top-[71.25px]"/>
 
-      <div className="mx-auto flex max-w-[150vh] font-serif">
+      <div className="mx-auto flex max-w-[1440px] font-serif">
         <aside className="sticky top-[71.25px] hidden h-screen-no-search box-border min-w-1/6 overflow-y-auto scrollbar_hidden p-6 lg:block" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
           <nav>
             <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">{"Содержание"}</h2>
