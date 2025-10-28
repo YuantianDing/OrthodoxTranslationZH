@@ -186,8 +186,12 @@ export default function OrthodoxComparison({ book, bookId }: {
       if (e.key == 'c') {
         const a = (window.getSelection() as any)?.anchorNode?.parentNode?.parentNode?.parentNode?.id;
         if (typeof a == 'string') {
+          let url = window.location.href.split('?')[0]
+          if (!url.endsWith('.html')) {
+            url += '.html'
+          }
           await navigator.clipboard.writeText(
-            window.getSelection()!.toString().trim() + `[（${book?.authors[0][1]} ${book?.title[1]}）](${window.location.href.split('?')[0]}?block=${a})`
+            window.getSelection()!.toString().trim() + `[（${book?.authors[0][1]} ${book?.title[1]}）](${url}?block=${a})`
           );
         }
       }
