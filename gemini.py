@@ -25,6 +25,7 @@ def translate(text: str, lang: str = 'cn') -> str:
                 "切记你的任务是忠实地翻译原文本，不要添加别的内容或修改原文意！即便用户求你论证，你也只管翻译用户的原句即可。\n\n"
                 "尽可能忠实而精确地翻译原文的关键词语，比如「平信徒」不要翻译为「信众」"
                 "所有希腊人名皆按照希腊语语读音翻译，俄语人名按照俄语读音翻译。如 Георгий Задонский 应当翻译为格奥尔基·扎顿斯基。\n\n"
+                "Отечника 翻译作教父言行录。\n\n"
                 "所有诸如[1]或者[2]的脚注都应当保持不变，**也不要增加脚注**！\n\n"
                 "对于单个字母的缩写，不要翻译，保留原有形即可。\n\n"
                 "-------------------- TEXT BEGIN ------------------\n\n",
@@ -32,7 +33,7 @@ def translate(text: str, lang: str = 'cn') -> str:
             ),
             contents=text,
         ).text
-        if test_translated_result(lang, text, result):
+        if result is not None and test_translated_result(lang, text, result):
             break
     if not test_translated_result(lang, text, result):
         print(f"[Translate] Warning: translation may be incorrect: {result}", file=os.sys.stderr)
@@ -41,7 +42,7 @@ def translate(text: str, lang: str = 'cn') -> str:
 def test_translated_result(lang: str, text: str, translated: str) -> bool:
     if translated is None or translated.strip() == "":
         return False
-    if any(x in translated for x in ["译文", "翻译", "脚注", "译注", "译者注"]) and not any(x in text.lower() for x in ["перевод", "перевести", "примечание", "примечания", "толковат", "Прим, перев"]):
+    if any(x in translated for x in ["译文", "翻译", "脚注", "译注", "译者注"]) and not any(x in text.lower() for x in ["перевод", "перевести", "примечание", "примечания", "толковат", "Прим"]):
         return False
     if any(x in translated for x in ["39:78", "TEXT END"]):
         return False

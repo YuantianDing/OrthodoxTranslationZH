@@ -82,9 +82,9 @@ def translate_lang_text(text: dict[str, str], languages: list[str]) -> bool:
                 while True:
                     try:
                         text[lang] = translate(text[languages[0]], lang=lang, no_cache=text_retranslate)
-                    except ServerError as e:
-                        if e.code == 503:
-                            print("[Translate] Rate limit exceeded. Waiting 10 seconds...", file=sys.stderr)
+                    except Exception as e:
+                        if isinstance(e, ServerError) or isinstance(e, AttributeError):
+                            print("[Translate] Translation Failed. :{e}\nWaiting 10 seconds...", file=sys.stderr)
                             time.sleep(10)
                             continue
                         else:

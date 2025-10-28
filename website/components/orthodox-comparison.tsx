@@ -10,6 +10,7 @@ import type React from "react"
 import type { Block, Book, Heading } from "@/lib/types"
 import { retrieve_book } from "@/lib/books-data"
 import { set } from "react-hook-form"
+import { useSearchParams } from "next/navigation"
 
 function FootnoteMarker({
   id,
@@ -100,11 +101,12 @@ export default function OrthodoxComparison({ book, bookId }: {
   const [searchQuery, setSearchQuery] = useState("")
   const contentRef = useRef<HTMLDivElement>(null)
   const observerRef = useRef<IntersectionObserver | null>(null)
-  const [displayMode, setDisplayMode] = useState<'both' | 'ru' | 'cn'>('both')
+  const [displayMode, setDisplayMode] = useState<'both' | 'ru' | 'cn'>('cn')
+  const searchParams = useSearchParams();
 
   const generateBlockId = (block: Block, index: number, parentId = ""): string => {
-    const prefix = parentId ? `${parentId}-` : ""
-    return `${prefix}block-${index}`
+    const prefix = parentId ? `${parentId}-` : "b"
+    return `${prefix}${index}`
   }
 
   const flattenBlocks = (blocks: Block[], parentId = ""): Array<{ id: string; block: Block; level: number }> => {
@@ -125,8 +127,12 @@ export default function OrthodoxComparison({ book, bookId }: {
   const allHeadings = flattenBlocks(book?.document ?? [])
 
   useEffect(() => {
-    if(window.screen.width < 1024) {
-      setDisplayMode('cn');
+    // if(window.screen.width < 1024) {
+    //   setDisplayMode('cn');
+    // }
+    if (searchParams.get('block')) {
+      scrollToSection(searchParams.get('block')!);
+      return;
     }
     const position = window.localStorage.getItem(bookId + ":last_position");
     if (position) {
@@ -164,8 +170,7 @@ export default function OrthodoxComparison({ book, bookId }: {
   }, [searchQuery])
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      console.log("Current Book Data:", displayMode);
+    const handleKeyDown = async (e: KeyboardEvent) => {
       if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
       if (e.key === "z") {
         if (displayMode !== 'cn') {
@@ -179,6 +184,14 @@ export default function OrthodoxComparison({ book, bookId }: {
           setDisplayMode('ru')
         } else {
           setDisplayMode('both')
+        }
+      }
+      if (e.key == 'c') {
+        const a = (window.getSelection() as any)?.anchorNode?.parentNode?.parentNode?.parentNode?.id;
+        if (typeof a == 'string') {
+          await navigator.clipboard.writeText(
+            window.getSelection()!.toString().trim() + `[（${book?.authors[0][1]} ${book?.title[1]}）](${window.location.href.split('?')[0]}?block=${a})`
+          );
         }
       }
     }
@@ -226,7 +239,7 @@ export default function OrthodoxComparison({ book, bookId }: {
       if (!matchesSearch(block)) return null
 
       return (
-        <div key={id} className={`grid gap-8 ${ (displayMode === 'both' ? 'md:grid-cols-2' : 'grid-cols-1') }`}>
+        <div key={id} id={id} className={`grid gap-8 ${ (displayMode === 'both' ? 'md:grid-cols-2' : 'grid-cols-1') }`}>
           <div className="space-y-2" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
             <p className="leading-relaxed text-foreground">
               {block.initial? <strong className="mr-1">{block.initial[0]}</strong> : null}
