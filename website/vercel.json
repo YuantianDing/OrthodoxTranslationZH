@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+      {
+        "source": "/compare/(.*)",
+        "destination": "/compare/$1"
+      }
+    ]
+}

@@ -8,9 +8,6 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import type React from "react"
 import type { Block, Book, Heading } from "@/lib/types"
-import { retrieve_book } from "@/lib/books-data"
-import { set } from "react-hook-form"
-import { useSearchParams } from "next/navigation"
 
 function FootnoteMarker({
   id,
@@ -102,7 +99,6 @@ export default function OrthodoxComparison({ book, bookId }: {
   const contentRef = useRef<HTMLDivElement>(null)
   const observerRef = useRef<IntersectionObserver | null>(null)
   const [displayMode, setDisplayMode] = useState<'both' | 'ru' | 'cn'>('cn')
-  const searchParams = useSearchParams();
 
   const generateBlockId = (block: Block, index: number, parentId = ""): string => {
     const prefix = parentId ? `${parentId}-` : "b"
@@ -130,8 +126,9 @@ export default function OrthodoxComparison({ book, bookId }: {
     // if(window.screen.width < 1024) {
     //   setDisplayMode('cn');
     // }
-    if (searchParams.get('block')) {
-      scrollToSection(searchParams.get('block')!);
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('block')) {
+      scrollToSection(urlParams.get('block')!);
       return;
     }
     const position = window.localStorage.getItem(bookId + ":last_position");
