@@ -10,7 +10,7 @@ import os
 
 FOOTNOTE = None
 FOOTNOTE_HIS = None
-
+CN_ONLY = False
 def typst_template(title: (str, str), blocks: list[(str, str)]):
     if len(title[0] + title[1]) < 30:
         title = f"*{title[0]} {title[1]}*"
@@ -32,6 +32,31 @@ def typst_template(title: (str, str), blocks: list[(str, str)]):
         "\n".join(f"[\n\t{a}\n]," for b in blocks for a in b)
     }
 )
+"""
+
+def typst_template_cn_only(title: (str, str), blocks: list[(str, str)]):
+    title = f"*{title[1]}*"
+    return fr"""
+#import "@preview/cjk-unbreak:0.1.1": remove-cjk-break-space
+#show: remove-cjk-break-space
+
+#set page(margin: 55pt)
+#set text(font: ("Songti SC", "EB Garamond"), size: 9pt)
+#show heading: set block(below: 13pt)
+#set page(columns: 2)
+#place(
+  top + center,
+  scope: "parent",
+  float: true,
+  text(20pt, weight: "bold")[
+    {title}
+    #v(20pt)
+])
+
+
+{
+    "\n\n".join(b[1] for b in blocks)
+}
 """
 
 def paragraph_typst(ty: str, initial: str | None, text: str, lang_id: int)-> str:
@@ -78,6 +103,8 @@ def new_footnote(id: str | re.Match):
             return " @note" + id + " "
         else:
             FOOTNOTE_HIS.add(id)
+            if CN_ONLY:
+                return f" #footnote[{fn2}]#label(\"note{id}\") "
             return f" #footnote[{fn1 + "#h(1cm)" + fn2}]#label(\"note{id}\") "
     elif type(FOOTNOTE_HIS) is dict:
         fn = FOOTNOTE[id]
@@ -111,6 +138,10 @@ def lastly_map(text: str) -> str:
     return text
 
 if __name__ == "__main__":
+    if "--cn-only" in sys.argv:
+        CN_ONLY = True
+        sys.argv.remove("--cn-only")
+
     for path in sys.argv[1:]:
         with open(path, 'r') as f:
             data = yaml.safe_load(f)
@@ -137,7 +168,7 @@ if __name__ == "__main__":
         for block in data['document']:
             process_block(block)
         title = (data['title'].get('ru'), data['title'].get('cn'))
-        typst_code = typst_template(title, BLOCKS)
+        typst_code = typst_template(title, BLOCKS) if not CN_ONLY else typst_template_cn_only(title, BLOCKS)
         typ_path = "/tmp/yaml_book.typ"
         pdf_path = os.path.dirname(os.path.abspath(path)) + f"/{title[-1]}.pdf"
 

@@ -69,15 +69,17 @@ def ask_ai_permission():
     AI_PERMISSION = False
     return False
 
-def translate_lang_text(text: dict[str, str], languages: list[str]) -> bool:
+def translate_lang_text(text: dict[str, str], languages: list[str], force_update=False) -> bool:
     translated = False
     for lang in languages[1:]:
         text_retranslate = lang in text and not test_translated_result(lang, text[languages[0]], text[lang])
-        if lang not in text or text_retranslate:
+        if lang not in text or text_retranslate or force_update:
             if not re.search(r'[^\d\W]', text[languages[0]]):
                 text[lang] = text[languages[0]]
             elif m := re.search(r'^Глава (\d+)\.?$', text[languages[0]]):
                 text[lang] = f"第 {m.group(1)} 章"
+            elif m := re.search(r'^Письмо (\d+)\.?$', text[languages[0]]):
+                text[lang] = f"书信 {m.group(1)}"
             elif ask_ai_permission():
                 while True:
                     try:
@@ -99,19 +101,19 @@ def translate_lang_text(text: dict[str, str], languages: list[str]) -> bool:
                 print(f"[Translate] {lang}: {text[lang]}", file=sys.stderr)
     return translated
 
-def translate_block(block, languages: list[str]):
+def translate_block(block, languages: list[str], force_update=False):
     if block['type'] in ['heading1', 'heading2', 'heading3', 'heading4']:
         for k, v in block['text'].items():
             block['text'][k] = v.replace("\n\n", "").strip()
-        translate_lang_text(block['text'], languages)
+        translate_lang_text(block['text'], languages, force_update)
         if 'initial' in block:
-            translate_lang_text(block['initial'], languages)
+            translate_lang_text(block['initial'], languages, force_update)
         for child in block['children']:
-            translate_block(child, languages)
+            translate_block(child, languages, force_update)
     elif block['type'] in ['paragraph', 'h1', 'h2', 'h3', 'h4']:
-        translate_lang_text(block['text'], languages)
+        translate_lang_text(block['text'], languages, force_update)
         if 'initial' in block:
-            translate_lang_text(block['initial'], languages)
+            translate_lang_text(block['initial'], languages, force_update)
 
 if __name__ == "__main__":
     for workdir in sys.argv[1:]:

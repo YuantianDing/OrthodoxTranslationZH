@@ -36,9 +36,7 @@ def dump_data(data):
         raise TypeError(f"Unsupported type: {type(data)}")
 
 def load_data(data, returnty):
-    if issubclass(returnty, BaseModel):
-        return returnty.model_validate(data)
-    elif get_origin(returnty) == list:
+    if get_origin(returnty) == list:
         return [load_data(item, get_args(returnty)[0]) for item in data]
     elif get_origin(returnty) == dict:
         return {load_data(k, get_args(returnty)[0]): load_data(v, get_args(returnty)[1]) for k, v in data.items()}
