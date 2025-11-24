@@ -46,6 +46,10 @@ else:
         for b_block, l_block in zip(data['document'], lang_data['document']):
             helper(b_block, l_block)
     
+    resp = input("Delete Sync File (y/n): ")
+    if resp.lower() == 'y':
+        os.remove(lang_file)
+    
 
 
 

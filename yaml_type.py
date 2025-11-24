@@ -33,8 +33,10 @@ class Block(TypedDict):
                 if block['type'] in ['heading1', 'heading2', 'heading3', 'heading4']:
                     assert 'children' in block
                     que = deque(block['children'])
-                    block['children'] = Block.parse_from_queue(que, languages, level=0)
-                    assert len(que) == 0
+
+                    block['children'] = Block.parse_from_queue(que, languages, level=lvl)
+                    if len(que) > 0:
+                        queue.extendleft(reversed(que))
                     result.append(Heading.from_dict(block, languages))
                 else:
                     block['type'] = 'heading' + block['type'][-1]

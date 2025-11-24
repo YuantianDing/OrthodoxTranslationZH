@@ -80,7 +80,7 @@ def translate_lang_text(text: dict[str, str], languages: list[str], force_update
                 text[lang] = f"第 {m.group(1)} 章"
             elif m := re.search(r'^Письмо (\d+)\.?$', text[languages[0]]):
                 text[lang] = f"书信 {m.group(1)}"
-            elif ask_ai_permission():
+            else:
                 while True:
                     try:
                         text[lang] = translate(text[languages[0]], lang=lang, no_cache=text_retranslate)
