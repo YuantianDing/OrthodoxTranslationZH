@@ -39,10 +39,10 @@ else:
                 assert 'initial' in block
                 block['initial'][lang] = lang_block['initial']
             if 'children' in lang_block:
-                assert len(block['children']) == len(lang_data['children'])
+                assert len(block['children']) == len(lang_block['children'])
                 for b_child, l_child in zip(block.get('children', []), lang_block['children']):
                     helper(b_child, l_child)
-        assert len(data['document']) == lang_data['document']
+        assert len(data['document']) == len(lang_data['document'])
         for b_block, l_block in zip(data['document'], lang_data['document']):
             helper(b_block, l_block)
     
