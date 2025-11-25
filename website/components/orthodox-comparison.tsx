@@ -72,6 +72,24 @@ function parseText(
   }).map(p => typeof p === 'string' ? parseTextWithFootnotes(p, footnotes, language) : p);
 }
 
+function parseParagraphs(
+  initial: string | undefined,
+  text: string,
+  footnotes: { [key: string]: [string, string] },
+  language: "russian" | "chinese",
+) : React.ReactNode {
+  return text.split(/\n(?:\s\n)*/).map((para, index) => (
+    <p key={index} className="leading-relaxed text-foreground">
+      {
+        index === 0 && initial ? (
+          <strong className="mr-1">{initial}</strong>
+        ) : <></>
+      }
+      {parseText(para, footnotes, language)}
+    </p>
+  ))
+}
+
 function highlightText(text: string, query: string): React.ReactNode {
   if (!query.trim()) return text
 
@@ -248,24 +266,14 @@ export default function OrthodoxComparison({ book, bookId }: {
       return (
         <div key={id} id={id} className={`grid gap-8 ${ (displayMode === 'both' ? 'md:grid-cols-2' : 'grid-cols-1') }`}>
           <div className="space-y-2" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
-            <p className="leading-relaxed text-foreground">
-              {block.initial? <strong className="mr-1">{block.initial[0]}</strong> : null}
-              {searchQuery
-                ? highlightText(russian, searchQuery)
-                : (block.label ?? []).includes("original_title")
-                ? <span key="1" className="text-muted-foreground">{russian}</span>
-                : parseText(russian, book?.footnotes ?? {}, "russian")}
-            </p>
+            {(block.label ?? []).includes("original_title")
+              ? <p className="leading-relaxed text-muted-foreground">{russian}</p>
+              : parseParagraphs(block.initial?.[0], russian, book?.footnotes ?? {}, "russian")}
           </div>
           <div className="space-y-2" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
-            <p className="leading-relaxed text-foreground">
-              {block.initial? <strong className="mr-1">{block.initial[1]}</strong> : null}
-              {searchQuery
-                ? highlightText(chinese, searchQuery)
-                : (block.label ?? []).includes("original_title")
-                ? <span key="1" className="text-muted-foreground">{chinese}</span>
-                : parseText(chinese, book?.footnotes ?? {}, "chinese")}
-            </p>
+            {(block.label ?? []).includes("original_title")
+              ? <p className="leading-relaxed text-muted-foreground">{chinese}</p>
+              : parseParagraphs(block.initial?.[1], chinese, book?.footnotes ?? {}, "chinese")}
           </div>
         </div>
       )
