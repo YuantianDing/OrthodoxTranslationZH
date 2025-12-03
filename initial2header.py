@@ -3,7 +3,7 @@
 import re
 import sys
 
-import yaml
+from yaml_type import load_yaml, dump_yaml
 
 from fix_yaml import YAMLSync
 from yaml_type import Book

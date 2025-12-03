@@ -7,7 +7,7 @@ from ebooklib import epub
 from bs4 import BeautifulSoup
 from dataclasses import dataclass
 
-import yaml
+from yaml_type import load_yaml, dump_yaml
 
 for path in sys.argv[1:]:
     book = epub.read_epub(path)
@@ -81,9 +81,9 @@ for path in sys.argv[1:]:
     authors = [title.split(' - ')[-1]] if ' - ' in title else []
     title = ' - '.join(title.split(' - ', maxsplit=1)[:-1])
     with open(path.replace('.epub', '.yaml'), 'w', encoding='utf-8') as f:
-        yaml.dump({
+        dump_yaml({
             'title': { 'ru': title },
             'authors': authors,
             'document': document,
             'footnotes': footnote,
-        }, f, allow_unicode=True, width=893172, sort_keys=False)
+        }, f)

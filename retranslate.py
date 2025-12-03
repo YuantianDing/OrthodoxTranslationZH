@@ -9,4 +9,4 @@ if __name__ == "__main__":
     with YAMLSync(sys.argv[1]) as data:
         book = Book.convert_dict(data)
         for block in book["document"]:
-            translate_block(block, languages=book['languages'])
+            translate_block(block, languages=book['languages'], force_update=True)

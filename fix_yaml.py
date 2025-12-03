@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 import sys
 import time
-import yaml
+from yaml_type import load_yaml, dump_yaml
 import zhconv
 from gemini import test_translated_result, translate
 from google.genai.errors import ServerError
@@ -29,7 +29,7 @@ class YAMLSync:
     def __enter__(self):
         with open(self.path, 'r', encoding='utf-8') as f:
             print("[YAML::Loading] ", self.path, file=sys.stderr)
-            self.yaml_data = yaml.safe_load(f)
+            self.yaml_data = load_yaml(f)
         self.yaml_data_old = deepcopy(self.yaml_data)
         return self.yaml_data
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -43,7 +43,7 @@ class YAMLSync:
                     return True
             print("[YAML::Saving] ", self.path, file=sys.stderr)
             with open(self.path, 'w', encoding='utf-8') as f:
-                yaml.dump(self.yaml_data, f, allow_unicode=True, sort_keys=False, indent=2)
+                dump_yaml(self.yaml_data, f)
             return True
 
 
@@ -75,6 +75,8 @@ def translate_lang_text(text: dict[str, str], languages: list[str], force_update
         text_retranslate = lang in text and not test_translated_result(lang, text[languages[0]], text[lang])
         if lang not in text or text_retranslate or force_update:
             if not re.search(r'[^\d\W]', text[languages[0]]):
+                text[lang] = text[languages[0]]
+            elif m := re.search(r'^Стр\.[^\n]+$', text[languages[0]]):
                 text[lang] = text[languages[0]]
             elif m := re.search(r'^Глава (\d+)\.?$', text[languages[0]]):
                 text[lang] = f"第 {m.group(1)} 章"

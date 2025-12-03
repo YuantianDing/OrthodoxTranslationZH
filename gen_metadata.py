@@ -1,12 +1,12 @@
 from glob import glob
-import yaml
+from yaml_type import load_yaml, dump_yaml
 from pathlib import Path
 
 def generate_metadata():
     metadata = []
     for path in Path(".").glob("**/book*.yaml"):
         with open(path, "r") as f:
-            data = yaml.safe_load(f)
+            data = load_yaml(f)
         metadata.append({
             "filepath": str(path),
             "title": data.get("title", "Unknown Title"),
@@ -14,7 +14,7 @@ def generate_metadata():
             "languages": data.get("languages", []),
         })
     with open("metadata.yaml", "w") as f:
-        yaml.dump(metadata, f, sort_keys=False, allow_unicode=True, width=12897218347)
+        dump_yaml(metadata, f)
 
 
 if __name__ == "__main__":

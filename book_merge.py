@@ -1,6 +1,6 @@
 import re
 import sys
-import yaml
+from yaml_type import load_yaml, dump_yaml
 
 from fix_yaml import YAMLSync
 from gemini import make_russian_title
@@ -13,7 +13,7 @@ LENGTH = len(str(len(sys.argv[1:]) - 1))
 for i, path in enumerate(sys.argv[1:]):
     id = f"{i:0{LENGTH}d}"
     with open(path, 'r') as f:
-        data = yaml.safe_load(f)
+        data = load_yaml(f)
         for k, v in data['footnotes'].items():
             FOOTNOTE[id + k] = v
 

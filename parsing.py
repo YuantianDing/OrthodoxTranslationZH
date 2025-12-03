@@ -4,7 +4,7 @@ from google import genai
 from google.genai.types import GenerateContentConfig, ThinkingConfig
 import re
 import pyparsing
-import yaml
+from yaml_type import load_yaml, dump_yaml
 from pycnnum import cn2num
 
 def roman_to_int(s: str) -> int:
@@ -54,7 +54,7 @@ VERSE = (
 
 
 with open(os.path.dirname(__file__) + '/bible_books.yaml', 'r', encoding='utf-8') as f:
-    BIBLE_BOOKS = yaml.safe_load(f)
+    BIBLE_BOOKS = load_yaml(f)
 
 BOOK_NAMES = [a for book in BIBLE_BOOKS for a in book['zh'] + book['zh-abbv']]
 def get_book(t):

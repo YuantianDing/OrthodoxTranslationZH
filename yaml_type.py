@@ -1,3 +1,4 @@
+import yaml
 from collections import deque
 from copy import deepcopy
 from typing import Any, Literal, NotRequired, TypedDict
@@ -121,3 +122,9 @@ class Book(TypedDict):
         document = data['document']
 
         return data
+
+def load_yaml(f) -> dict:
+    return yaml.load(f, Loader=yaml.CLoader)
+
+def dump_yaml(obj: dict, f):
+    yaml.dump(obj, f, allow_unicode=True, indent=2, sort_keys=False, width=91820347, Dumper=yaml.CDumper)

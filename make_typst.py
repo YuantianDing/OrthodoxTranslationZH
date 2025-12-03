@@ -3,7 +3,7 @@ import itertools
 import re
 import sys
 
-import yaml
+from yaml_type import load_yaml, dump_yaml
 import subprocess
 import os
 
@@ -144,7 +144,7 @@ if __name__ == "__main__":
 
     for path in sys.argv[1:]:
         with open(path, 'r') as f:
-            data = yaml.safe_load(f)
+            data = load_yaml(f)
 
         FOOTNOTE = data['footnotes']
         FOOTNOTE_HIS = set() if len(FOOTNOTE) < 50 else dict()

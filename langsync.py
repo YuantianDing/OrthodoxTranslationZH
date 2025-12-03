@@ -1,9 +1,10 @@
 import os
 import sys
-import yaml
+from yaml_type import load_yaml, dump_yaml
 import marko
 import re
 from fix_yaml import YAMLSync
+from yaml_type import dump_yaml
 
 file = sys.argv[1]
 lang = sys.argv[2]
@@ -26,11 +27,11 @@ if not os.path.exists(lang_file):
             'document': [helper(block) for block in data['document']]
         }
     with open(lang_file, 'w') as f:
-        yaml.dump(new_data, f, allow_unicode=True, sort_keys=False)
+        dump_yaml(new_data, f)
 
 else:
     with open(lang_file, 'r') as f:
-        lang_data = yaml.safe_load(f)
+        lang_data = load_yaml(f)
     with YAMLSync(file) as data:
         def helper(block, lang_block):
             assert block['type'] == lang_block['type']
