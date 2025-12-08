@@ -38,8 +38,8 @@ for i, path in enumerate(sys.argv[1:]):
         AUTHORS |= set(data.get('authors', []))
 
 with open('merged_book.yaml', 'w') as f:
-    yaml.safe_dump({
+    dump_yaml({
         'document': DOCUMENT,
-        'footnotes': FOOTNOTE,
+        'footnotes': {f"[{k}]": v for k, v in FOOTNOTE.items()},
         'authors': list(AUTHORS),
-    }, f, allow_unicode=True, indent=2, sort_keys=False, width=91820347)
+    }, f)

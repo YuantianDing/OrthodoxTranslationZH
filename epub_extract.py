@@ -59,7 +59,7 @@ for path in sys.argv[1:]:
                     assert footnote_start not in footnote, footnote[footnote_start]
                     footnote[footnote_start] = text
                 else:
-                    m = re.match(r"^[\w§]*\s*\d+[\.,\)]", text)
+                    m = re.match(r"^[\w§]*\s*\d+[\.\)]", text)
                     if m:
                         initial = m.group(0)
                         text = text[len(initial):].strip()
@@ -73,7 +73,6 @@ for path in sys.argv[1:]:
                         initial_words |= set(a for a in re.findall(r'[а-яА-ЯёЁ]+', initial, re.IGNORECASE))
     for k in footnote:
         footnote[k] = footnote[k].strip()
-    print(footnote)
     print(initial_words)
     if document[0]['type'] == 'paragraph':
         document = document[1:]
