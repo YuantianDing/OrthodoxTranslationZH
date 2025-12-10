@@ -8,7 +8,7 @@ import time
 from yaml_type import load_yaml, dump_yaml
 import zhconv
 from gemini import test_translated_result, translate
-from google.genai.errors import ServerError
+from google.genai.errors import ServerError, ClientError
 import subprocess
 
 from gen_metadata import generate_metadata
@@ -87,7 +87,7 @@ def translate_lang_text(text: dict[str, str], languages: list[str], force_update
                     try:
                         text[lang] = translate(text[languages[0]], lang=lang, no_cache=text_retranslate)
                     except Exception as e:
-                        if isinstance(e, ServerError) or isinstance(e, AttributeError):
+                        if isinstance(e, ServerError) or isinstance(e, AttributeError) or isinstance(e, ClientError):
                             print("[Translate] Translation Failed. :{e}\nWaiting 10 seconds...", file=sys.stderr)
                             time.sleep(10)
                             continue
