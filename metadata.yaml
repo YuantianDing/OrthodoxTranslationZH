@@ -64,7 +64,9 @@
   title:
     ru: УЧЕЊЕ И СПИСИ
     cn: 教诲与著作
-  authors: Unknown Author
+  authors:
+  - ru: Преподобни Силуан Атонски
+    cn: 阿陀斯人圣西卢安
   languages:
   - ru
   - cn
