@@ -34,7 +34,7 @@ function transform(data: any) : any {
 export async function retrieve_book(id: string): Promise<Book | null> {
   const metadata = await retrieve_book_metadata();
   console.log(id);
-  const book = metadata.find(b => get_book_id(b) === id);
+  const book = metadata.find(b => get_book_id(b) == id);
   console.log(book);
   if (!book) {
     return null;
