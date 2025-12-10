@@ -60,6 +60,14 @@
   languages:
   - ru
   - cn
+- filepath: 阿陀斯人圣西卢安/教诲与著作/book.yaml
+  title:
+    ru: УЧЕЊЕ И СПИСИ
+    cn: 教诲与著作
+  authors: Unknown Author
+  languages:
+  - ru
+  - cn
 - filepath: 叙利亚的圣以弗冷/作品/book.yaml
   title:
     ru: Творения
@@ -67,6 +75,16 @@
   authors:
   - cn: 叙利亚的圣以弗冷
     ru: Преподобный Ефрем Сирин
+  languages:
+  - ru
+  - cn
+- filepath: 阿陀斯人圣帕伊西乌斯/信件/book.yaml
+  title:
+    ru: Письма
+    cn: 信件
+  authors:
+  - ru: Преподобный Паисий Святогорец
+    cn: 阿陀斯人圣帕伊西乌斯
   languages:
   - ru
   - cn
