@@ -3,7 +3,7 @@ import hashlib
 import json
 import pathlib
 import types
-from typing import get_args, get_origin
+from typing import Union, get_args, get_origin
 from pydantic import BaseModel
 import inspect
 import os
@@ -65,7 +65,7 @@ def load_data(data, returnty):
     else:
         raise TypeError(f"Unsupported type: {returnty}")
 
-def cache_fn(cache_dir: str):
+def cache_fn(cache_dir: Union[str, pathlib.Path]):
     cache_dir = str(cache_dir)
     if not os.path.exists(cache_dir):
         os.makedirs(cache_dir)

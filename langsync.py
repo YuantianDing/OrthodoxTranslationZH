@@ -1,5 +1,6 @@
 import os
 import sys
+
 from yaml_type import load_yaml, dump_yaml
 import marko
 import re
@@ -9,48 +10,49 @@ from yaml_type import dump_yaml
 file = sys.argv[1]
 lang = sys.argv[2]
 
-lang_file = f"{lang}-{file}"
+lang_file = f"{lang}-{file}.md"
 
 if not os.path.exists(lang_file):
     with YAMLSync(file) as data:
-        def helper(block) -> dict:
-            result = dict()
-            result['type'] = block['type']
-            if 'initial' in block and lang in block['initial']:
-                result['initial'] = block['initial'][lang]
-            result['text'] = block['text'][lang]
+        def helper(block) -> list[dict]:
             if 'children' in block:
-                result['children'] = [helper(child) for child in block['children']]
-            return result
-        
-        new_data = {
-            'document': [helper(block) for block in data['document']]
-        }
-    with open(lang_file, 'w') as f:
-        dump_yaml(new_data, f)
+                return sum((helper(c) for c in block['children']), [block])
+            return [block]
+        all_blocks = sum((helper(b) for b in data['document']), [])
 
+        with open(lang_file, 'w') as f:
+            for block in all_blocks:
+                initial_text = block.get('initial', {}).get(lang, '')
+                if initial_text != '':
+                    initial_text = " " + initial_text
+                if block['type'] in ['heading1', 'heading2', 'heading3', 'heading4']:
+                    level = int(block['type'][-1])
+                    f.write(f"{'#' * level}{initial_text} {block['text'].get(lang, '')}\n\n")
+                else:
+                    text = block['text'].get(lang, '')
+                    f.write(f"✞{initial_text} {text}\n\n")
+                    block['text'][lang] = block['text'][lang].strip()
 else:
     with open(lang_file, 'r') as f:
-        lang_data = load_yaml(f)
+        blocks = []
+        for line in f:
+            if " " in line:
+                blocks.append(line.split(" ", 1)[1])
+            else:
+                blocks[-1] += line
+
     with YAMLSync(file) as data:
-        def helper(block, lang_block):
-            assert block['type'] == lang_block['type']
-            block['text'][lang] = lang_block['text']
-            if 'initial' in lang_block:
-                assert 'initial' in block
-                block['initial'][lang] = lang_block['initial']
-            if 'children' in lang_block:
-                assert len(block['children']) == len(lang_block['children'])
-                for b_child, l_child in zip(block.get('children', []), lang_block['children']):
-                    helper(b_child, l_child)
-        assert len(data['document']) == len(lang_data['document'])
-        for b_block, l_block in zip(data['document'], lang_data['document']):
-            helper(b_block, l_block)
-    
+        def helper(block) -> list[dict]:
+            if 'children' in block:
+                return sum((helper(c) for c in block['children']), [block])
+            return [block]
+        all_blocks = sum((helper(b) for b in data['document']), [])
+
+        assert len(blocks) == len(all_blocks)
+
+        for a, b in zip(all_blocks, blocks):
+            a['text'][lang] = b.strip()
+
     resp = input("Delete Sync File (y/n): ")
     if resp.lower() == 'y':
         os.remove(lang_file)
-    
-
-
-

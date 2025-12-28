@@ -3,7 +3,6 @@ from collections import deque
 from copy import deepcopy
 from typing import Any, Literal, NotRequired, TypedDict
 import os
-from gemini import translate
 
 def lang_text(text: str | dict[str, str], languages: list[str]) -> dict[str, str]:
     if type(text) == str:
@@ -123,8 +122,8 @@ class Book(TypedDict):
 
         return data
 
-def load_yaml(f) -> dict:
+def load_yaml(f):
     return yaml.load(f, Loader=yaml.CLoader)
 
-def dump_yaml(obj: dict, f):
+def dump_yaml(obj, f):
     yaml.dump(obj, f, allow_unicode=True, indent=2, sort_keys=False, width=91820347, Dumper=yaml.CDumper)

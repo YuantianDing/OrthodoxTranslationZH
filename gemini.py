@@ -36,6 +36,8 @@ def translate(text: str, lang: str = 'cn') -> str:
         ).text
         if result is not None and test_translated_result(lang, text, result):
             break
+    if result is None:
+        raise ValueError("Translation failed after retries")
     if not test_translated_result(lang, text, result):
         print(f"[Translate] Warning: translation may be incorrect: {result}", file=os.sys.stderr)
     return result.strip()
