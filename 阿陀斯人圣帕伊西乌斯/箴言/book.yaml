@@ -147,9 +147,6 @@ document:
     text:
       ru: Εισαγωγικά από λόγους του Γέροντα
       cn: 引言：选自长老的讲论
-    initial:
-      ru: Κεφάλαιο 1
-      cn: 第一章
     children:
     - type: heading4
       text:
@@ -23001,7 +22998,7 @@ document:
         - type: paragraph
           text:
             ru: αυταπάρνηση 104, 108
-            cn: ' 自我否定 104, 108'
+            cn: 自我否定 104, 108
         - type: paragraph
           text:
             ru: αυτογνωσία βλ. γνώση εαυτού

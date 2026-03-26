@@ -22,8 +22,8 @@ if not os.path.exists(lang_file):
 
         with open(lang_file, 'w') as f:
             for block in all_blocks:
-                initial_text = block.get('initial', {}).get(lang, '')
-                if initial_text != '':
+                initial_text = block.get('initial', {}).get(lang, ' ')
+                if initial_text != ' ':
                     initial_text = " " + initial_text
                 if block['type'] in ['heading1', 'heading2', 'heading3', 'heading4']:
                     level = int(block['type'][-1])
