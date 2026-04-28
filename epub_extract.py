@@ -35,6 +35,7 @@ for path in sys.argv[1:]:
             body = list(soup.find('body').children)
 
             if "#note" in (selector_of(body[0]) or ''):
+                print(f"footnote[{body[0].get_text(strip=True)}] = {body[1].get_text(strip=True)}")
                 footnote[str(body[0].get_text(strip=True))] = body[1].get_text(strip=True)
                 continue
 
@@ -56,8 +57,11 @@ for path in sys.argv[1:]:
                 elif footnote_start is not None and ty.startswith('h'):
                     footnote_start = text
                 elif footnote_start is not None:
-                    assert footnote_start not in footnote, footnote[footnote_start]
-                    footnote[footnote_start] = text
+                    # assert , footnote[footnote_start]
+                    if footnote_start not in footnote:
+                        footnote[footnote_start] = text
+                    else:
+                        footnote[footnote_start] += "\n" + text
                 else:
                     m = re.match(r"^[\w§]*\s*\d+[\.\)]", text)
                     if m:

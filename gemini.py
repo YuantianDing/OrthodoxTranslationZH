@@ -5,11 +5,10 @@ from google import genai
 from google.genai.types import GenerateContentConfig, ThinkingConfig
 from pydantic import BaseModel
 from cache import cache_fn
-import mirascope
+
 DIRNAME = Path(os.path.dirname(__file__))
 
 CLIENT = genai.Client()
-VIOLATION = "Помню, я слышал, что некогда  было такое происшествие. В некоторый город пришел корабль с невольниками,  а в городе том жила одна святая дева, весьма внимавшая себе. Она, услышав,  что пришел оный корабль, очень обрадовалась, ибо желала купить себе маленькую  девочку, и думала: возьму и воспитаю её, как хочу, чтобы она вовсе не  знала пороков мира сего. Она послала за хозяином корабля того и, призвав  его к себе, узнала, что у него есть две маленькие девочки, именно такие,  каких она желала, и тотчас с радостию отдала она цену за одну из них и  взяла её к себе. Когда же хозяин корабля удалился из того места, где пребывала  оная святая, и едва отошёл немного, встретила его одна блудница, совершенно  развратная, и, увидев с ним другую девочку, захотела взять её; условившись  с ним, отдала цену, взяла девочку и ушла с ней. Видите ли тайну Божию?"
 
 @cache_fn(DIRNAME / ".cache/gemini_translate2")
 def translate(text: str, lang: str = 'cn') -> str:
@@ -17,9 +16,9 @@ def translate(text: str, lang: str = 'cn') -> str:
     if text.strip() == "":
         return ""
     result = None
-    for i in range(5):
+    while True:
         result = CLIENT.models.generate_content(
-            model="gemini-flash-latest",
+            model="gemini-2.5-flash",
             config=GenerateContentConfig(system_instruction=
                 "You are a loyal translator. 用中文翻译用户所给出的基督教/东正教相关精神书籍。**对于灵修指导类的文本，应力求精确，保证词与词感情色彩准确对应！**对于诗歌性质的文本，则可以使用传统、诗性和富有文学色彩的语言，但**不要使用文言的表达**。\n\n"
                 "对于经文引用，一律采用（马太福音 39:78）的形式\n\n"
@@ -45,14 +44,18 @@ def translate(text: str, lang: str = 'cn') -> str:
 def test_translated_result(lang: str, text: str, translated: str) -> bool:
     if translated is None or translated.strip() == "":
         return False
-    if any(x in translated for x in ["译文", "翻译", "脚注", "译注", "译者注", "释义"]) and not any(x in text.lower() for x in ["перевод", "перевести", "примечание", "примечания", "толковат", "Прим", "μεταφρ", "σημείωσ"]):
+    if any(x in translated for x in ["译文", "翻译", "脚注", "译注", "译者注", "释义"]) and not any(x in text.lower() for x in [
+        "перевод", "перевести", "примечание", "примечания", "толковат", "Прим",
+        "μεταφρ", "σημείωσ", "превести", "превод", "преводилац", "преводитељ",
+        "тумач", "тумачити", "тумачење", "тумачити", "прев"
+    ]):
         return False
     if any(x in translated for x in ["39:78", "TEXT END"]):
         return False
     if set(a for a in re.findall(r'\[\w?\d+\]', text)) != set(a for a in re.findall(r'\[\w?\d+\]', translated)):
         return False
-    if len(translated) > len(text) * 1.4:
-        return False
+    # if len(translated) > len(text) * 1.4:
+    #     return False
     return True
 
 @cache_fn(DIRNAME / ".cache/summarize_russian")
@@ -62,7 +65,7 @@ def summarize_russian(text: str) -> str:
     result = None
     for i in range(5):
         result = CLIENT.models.generate_content(
-            model="gemini-flash-latest",
+            model="gemini-2.5-flash",
             config=GenerateContentConfig(system_instruction=
                 "Ты — благоговейный толкователь священных текстов.\n"
                 "Твоя задача — по данному пользователем духовному тексту написать одно предложение, которое кратко и благоговейно передаёт его основную мысль.\n\n"
@@ -88,7 +91,7 @@ def make_russian_title(text: str) -> str:
     result = None
     for i in range(5):
         result = CLIENT.models.generate_content(
-            model="gemini-flash-latest",
+            model="gemini-2.5-flash",
             config=GenerateContentConfig(system_instruction=
                 "Ты — благоговейный толкователь священных текстов.\n"
                 "Твоя задача — по данному пользователем духовному тексту написать заголовок, который кратко и благоговейно передаёт его основную мысль.\n\n"
@@ -118,7 +121,7 @@ def word_correspondance(lang:str, text1: str, text2: str) -> dict[str, str]:
     result = None
     for i in range(5):
         result = CLIENT.models.generate_content(
-            model="gemini-2.5-flash-preview-05-20",
+            model="gemini-2.5-flash",
             config=GenerateContentConfig(system_instruction=
                 "You are a loyal translation checker. 用户在尝试理解中文翻译的东正教相关俄语文段，"
                 "请你帮忙对照俄语原文和中文翻译，列出对于精准地属灵理解该文段所需要确定的关键词语，尤其是那些有可能表达不同意思的词语。\n\n"

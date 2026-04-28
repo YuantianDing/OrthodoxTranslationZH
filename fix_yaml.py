@@ -87,11 +87,11 @@ def translate_lang_text(text: dict[str, str], languages: list[str], force_update
                     try:
                         text[lang] = translate(text[languages[0]], lang=lang, no_cache=text_retranslate)
                     except Exception as e:
-                        if isinstance(e, ServerError) or isinstance(e, AttributeError) or isinstance(e, ClientError):
-                            print("[Translate] Translation Failed. :{e}\nWaiting 10 seconds...", file=sys.stderr)
-                            time.sleep(10)
-                            continue
-                        else:
+                        # if isinstance(e, ServerError) or isinstance(e, AttributeError) or isinstance(e, ClientError):
+                        #     print("[Translate] Translation Failed. :{e}\nWaiting 10 seconds...", file=sys.stderr)
+                        #     time.sleep(10)
+                        #     continue
+                        # else:
                             raise e
                     break
                 translated = True
