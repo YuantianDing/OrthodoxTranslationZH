@@ -316,3 +316,13 @@
   languages:
   - ru
   - cn
+- filepath: 圣约翰克朗塔斯特/我在基督里的生活/book.yaml
+  title:
+    ru: Mоя жизнь во Христе
+    cn: 我在基督里的生活
+  authors:
+  - cn: 圣约翰克朗塔斯特
+    ru: Святитель Иоанн (Кронштадтский)
+  languages:
+  - ru
+  - cn

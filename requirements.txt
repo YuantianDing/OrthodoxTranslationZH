@@ -1,0 +1,11 @@
+beautifulsoup4
+ebooklib
+edge-tts
+google-genai
+marko
+pycnnum
+pydantic
+pypandoc
+pyparsing
+pyyaml
+zhconv

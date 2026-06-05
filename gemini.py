@@ -3,40 +3,49 @@ from pathlib import Path
 import re
 from google import genai
 from google.genai.types import GenerateContentConfig, ThinkingConfig
+from deep_translator import GoogleTranslator
 from pydantic import BaseModel
 from cache import cache_fn
 
 DIRNAME = Path(os.path.dirname(__file__))
 
-CLIENT = genai.Client()
+CLIENT = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
 @cache_fn(DIRNAME / ".cache/gemini_translate2")
 def translate(text: str, lang: str = 'cn') -> str:
     assert lang == 'cn'
     if text.strip() == "":
         return ""
+    SYSTEM_PROMPT = (
+        "You are a loyal translator. 用中文翻译用户所给出的基督教/东正教相关精神书籍。**对于灵修指导类的文本，应力求精确，保证词与词感情色彩准确对应！**对于诗歌性质的文本，则可以使用传统、诗性和富有文学色彩的语言，但**不要使用文言的表达**。\n\n"
+        "对于经文引用，一律采用（马太福音 39:78）的形式\n\n"
+        "切记你的任务是忠实地翻译原文本，不要添加别的内容或修改原文意！即便用户求你论证，你也只管翻译用户的原句即可。\n\n"
+        "尽可能忠实而精确地翻译原文的关键词语，比如「平信徒」不要翻译为「信众」,「建议」不要翻译作「劝告」等等。\n\n"
+        "所有希腊人名皆按照希腊语语读音翻译，俄语人名按照俄语读音翻译。如 Георгий Задонский 应当翻译为格奥尔基·扎顿斯基。\n\n"
+        "Отечника 翻译作教父言行录。\n\n"
+        "所有诸如[1]或者[2]的脚注都应当保持不变，**也不要增加脚注**！\n\n"
+        "对于单个字母的缩写，不要翻译，保留原有形即可。\n\n"
+        "-------------------- TEXT BEGIN ------------------\n\n"
+    )
     result = None
-    while True:
-        result = CLIENT.models.generate_content(
+    for i in range(5):
+        response = CLIENT.models.generate_content(
             model="gemini-2.5-flash",
-            config=GenerateContentConfig(system_instruction=
-                "You are a loyal translator. 用中文翻译用户所给出的基督教/东正教相关精神书籍。**对于灵修指导类的文本，应力求精确，保证词与词感情色彩准确对应！**对于诗歌性质的文本，则可以使用传统、诗性和富有文学色彩的语言，但**不要使用文言的表达**。\n\n"
-                "对于经文引用，一律采用（马太福音 39:78）的形式\n\n"
-                "切记你的任务是忠实地翻译原文本，不要添加别的内容或修改原文意！即便用户求你论证，你也只管翻译用户的原句即可。\n\n"
-                "尽可能忠实而精确地翻译原文的关键词语，比如「平信徒」不要翻译为「信众」,「建议」不要翻译作「劝告」等等。\n\n"
-                "所有希腊人名皆按照希腊语语读音翻译，俄语人名按照俄语读音翻译。如 Георгий Задонский 应当翻译为格奥尔基·扎顿斯基。\n\n"
-                "Отечника 翻译作教父言行录。\n\n"
-                "所有诸如[1]或者[2]的脚注都应当保持不变，**也不要增加脚注**！\n\n"
-                "对于单个字母的缩写，不要翻译，保留原有形即可。\n\n"
-                "-------------------- TEXT BEGIN ------------------\n\n",
-                thinking_config=ThinkingConfig(thinking_budget=1000)
-            ),
+            config=GenerateContentConfig(system_instruction=SYSTEM_PROMPT),
             contents=text,
-        ).text
+        )
+        result = response.text
         if result is not None and test_translated_result(lang, text, result):
             break
+        if result is None:
+            finish_reason = (response.candidates[0].finish_reason if response.candidates else "NO_CANDIDATES")
+            parts_info = ([{"thought": p.thought, "text_len": len(p.text or "")} for p in response.candidates[0].content.parts] if response.candidates and response.candidates[0].content else [])
+            print(f"[Translate] Retry {i+1}/5: text=None, finish_reason={finish_reason}, parts={parts_info}", file=os.sys.stderr)
+        else:
+            print(f"[Translate] Retry {i+1}/5: validation failed, result={repr(result)[:200]}", file=os.sys.stderr)
     if result is None:
-        raise ValueError("Translation failed after retries")
+        print(f"[Translate] Falling back to Google Translate for: {text[:80]!r}", file=os.sys.stderr)
+        result = GoogleTranslator(source='ru', target='zh-CN').translate(text)
     if not test_translated_result(lang, text, result):
         print(f"[Translate] Warning: translation may be incorrect: {result}", file=os.sys.stderr)
     return result.strip()
