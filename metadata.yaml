@@ -383,3 +383,13 @@
   languages:
   - ru
   - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传记/book.yaml
+  title:
+    ru: Житија Светих
+    cn: 圣徒传
+  authors:
+  - cn: 圣游斯丁·波波维奇
+    ru: Святой Иустин (Попович)
+  languages:
+  - ru
+  - cn
