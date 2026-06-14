@@ -9,6 +9,19 @@ import Link from "next/link"
 import type React from "react"
 import type { Block, Book, Heading } from "@/lib/types"
 
+function normalizeTextPair(value: unknown): [string, string] {
+  if (Array.isArray(value)) {
+    return [value[0] ?? "", value[1] ?? ""]
+  }
+
+  if (value && typeof value === "object") {
+    const record = value as { ru?: string; en?: string; cn?: string }
+    return [record.ru || record.en || "", record.cn || ""]
+  }
+
+  return ["", ""]
+}
+
 function FootnoteMarker({
   id,
   footnote,
@@ -214,8 +227,10 @@ export default function OrthodoxComparison({ book, bookId }: {
           // if (!url.endsWith('.html')) {
           //   url += '.html'
           // }
+          const [authorRu, authorCn] = normalizeTextPair(book?.authors?.[0] ?? ["", ""])
+          const [titleRu, titleCn] = normalizeTextPair(book?.title)
           await navigator.clipboard.writeText(
-            window.getSelection()!.toString().trim() + `[（${book?.authors[0][1]} ${book?.title[1]}）](${url}?block=${a})`
+            window.getSelection()!.toString().trim() + `[（${authorCn || authorRu} ${titleCn || titleRu}）](${url}?block=${a})`
           );
         }
       }
@@ -250,7 +265,7 @@ export default function OrthodoxComparison({ book, bookId }: {
     if (!searchQuery.trim()) return true
 
     const query = searchQuery.toLowerCase()
-    const [russian, chinese] = block.text
+    const [russian, chinese] = normalizeTextPair(block.text)
 
     return russian.toLowerCase().includes(query) || chinese.includes(searchQuery)
   }
@@ -259,7 +274,8 @@ export default function OrthodoxComparison({ book, bookId }: {
     const id = generateBlockId(block, index, parentId)
 
     if (!block.hasOwnProperty("children")) {
-      const [russian, chinese] = block.text
+      const [russian, chinese] = normalizeTextPair(block.text)
+      const [initialRussian, initialChinese] = normalizeTextPair(block.initial)
       if(!russian || !chinese) return null
       if (!matchesSearch(block)) return null
 
@@ -268,19 +284,20 @@ export default function OrthodoxComparison({ book, bookId }: {
           <div className="space-y-2" style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
             {(block.label ?? []).includes("original_title")
               ? <p className="leading-relaxed text-muted-foreground">{russian}</p>
-              : parseParagraphs(block.initial?.[0], russian, book?.footnotes ?? {}, "russian")}
+              : parseParagraphs(initialRussian, russian, book?.footnotes ?? {}, "russian")}
           </div>
           <div className="space-y-2" style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
             {(block.label ?? []).includes("original_title")
               ? <p className="leading-relaxed text-muted-foreground">{chinese}</p>
-              : parseParagraphs(block.initial?.[1], chinese, book?.footnotes ?? {}, "chinese")}
+              : parseParagraphs(initialChinese, chinese, book?.footnotes ?? {}, "chinese")}
           </div>
         </div>
       )
     }
 
     const heading = block as Heading
-    const [russian, chinese] = heading.text
+    const [russian, chinese] = normalizeTextPair(heading.text)
+    const [headingInitialRussian, headingInitialChinese] = normalizeTextPair(heading.initial)
     const level = Number.parseInt(heading.type.replace("heading", ""))
     const headingSize = level === 1 ? "text-3xl" : level === 2 ? "text-2xl" : level === 3 ? "text-xl" : "text-lg"
 
@@ -296,12 +313,12 @@ export default function OrthodoxComparison({ book, bookId }: {
           <section id={id} data-section className="scroll-mt-[80px]">
             <div className="mb-6 flex items-start justify-between gap-8">
               <HeaderTag className={cn(headingClasses, "text-left")} style={(displayMode === 'both' || displayMode === 'ru') ? {} : { display: 'none'}}>
-                {block.initial? <strong className="pr-1">{block.initial[0]}</strong> : null}
+                {headingInitialRussian ? <strong className="pr-1">{headingInitialRussian}</strong> : null}
                 {searchQuery ? highlightText(russian, searchQuery) : russian}
               </HeaderTag>
               {/* <div className="h-8 w-px" /> */}
               <HeaderTag className={cn(headingClasses, "text-left")} style={(displayMode === 'both' || displayMode === 'cn') ? {} : { display: 'none'}}>
-                {block.initial? <strong className="pr-1">{block.initial[1]}</strong> : null}
+                {headingInitialChinese ? <strong className="pr-1">{headingInitialChinese}</strong> : null}
                 {searchQuery ? highlightText(chinese, searchQuery) : chinese}
               </HeaderTag>
             </div>
@@ -323,8 +340,10 @@ export default function OrthodoxComparison({ book, bookId }: {
 
     const heading = item.block as unknown as Heading
 
-    const title = language === "russian" ? heading.text[0] : heading.text[1]
-    const initial = heading.initial? (language === "russian" ? heading.initial[0] : heading.initial[1]) : null;
+    const [titleRussian, titleChinese] = normalizeTextPair(heading.text)
+    const [initialRussian, initialChinese] = normalizeTextPair(heading.initial)
+    const title = language === "russian" ? titleRussian : titleChinese
+    const initial = language === "russian" ? initialRussian : initialChinese
     const hasChildren = heading.children.some((child) => child.type !== "paragraph")
     const isExpanded = expandedSections.has(item.id)
     const indent = (item.level - 2) * 16
@@ -448,11 +467,11 @@ export default function OrthodoxComparison({ book, bookId }: {
         <div className="mx-auto max-w-[1440px] px-4 pb-6">
           <div className="flex items-center justify-between h-12">
             { (displayMode == 'both' || displayMode == 'ru') &&
-              <h1 className={`flex-1 text-${displayMode == 'both' ? 'left' : 'center'} font-serif text-3xl font-bold text-foreground `}>{book.title[0]}</h1>
+              <h1 className={`flex-1 text-${displayMode == 'both' ? 'left' : 'center'} font-serif text-3xl font-bold text-foreground `}>{normalizeTextPair(book.title)[0]}</h1>
             }
             {/* <div className="mx-8  w-px" /> */}
             { (displayMode == 'both' || displayMode == 'cn') &&
-              <h1 className={`flex-1 text-${displayMode == 'both' ? 'right' : 'center'} font-serif text-3xl font-bold text-foreground`}>{book.title[1]}</h1>
+              <h1 className={`flex-1 text-${displayMode == 'both' ? 'right' : 'center'} font-serif text-3xl font-bold text-foreground`}>{normalizeTextPair(book.title)[1]}</h1>
             }
           </div>
         </div>

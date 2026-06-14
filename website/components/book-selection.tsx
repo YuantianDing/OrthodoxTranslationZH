@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import { BookMeta, get_book_id, retrieve_book_metadata } from "@/lib/books-data"
+import { BookMeta, get_book_id } from "@/lib/book-ids"
 
 
 export default function BookSelection({ metadata} : {metadata: BookMeta[]}) {
@@ -25,17 +25,29 @@ export default function BookSelection({ metadata} : {metadata: BookMeta[]}) {
     }
   }, [])
 
-  const filteredBooks = metadata.filter(
-    (book) =>
-      book.title[0].toLowerCase().includes(searchQuery.toLowerCase()) ||
-      book.title[1].includes(searchQuery) ||
-      book.authors[0][0].toLowerCase().includes(searchQuery.toLowerCase()) ||
-      book.authors[0][1].includes(searchQuery),
-  )
+  const getPrimaryAuthor = (book: BookMeta) => book.authors[0] ?? ["", ""]
+  const getTitle = (book: BookMeta) => book.title[0] || book.title[1] || ""
+  const getChineseTitle = (book: BookMeta) => book.title[1] || book.title[0] || ""
+  const getAuthorLabel = (book: BookMeta) => {
+    const [author, authorChinese] = getPrimaryAuthor(book)
+    return [author || authorChinese || "Unknown author", authorChinese || author || "未知作者"] as const
+  }
+
+  const filteredBooks = metadata.filter((book) => {
+    const [author, authorChinese] = getPrimaryAuthor(book)
+    const query = searchQuery.toLowerCase()
+    return (
+      getTitle(book).toLowerCase().includes(query) ||
+      getChineseTitle(book).includes(searchQuery) ||
+      author.toLowerCase().includes(query) ||
+      authorChinese.includes(searchQuery)
+    )
+  })
 
   const booksByAuthor = filteredBooks.reduce(
     (acc, book) => {
-      const authorKey = `${book.authors[0][0]}|${book.authors[0][1]}`
+      const [author, authorChinese] = getAuthorLabel(book)
+      const authorKey = `${author}|${authorChinese}`
       if (!acc[authorKey]) {
         acc[authorKey] = []
       }
@@ -103,18 +115,18 @@ export default function BookSelection({ metadata} : {metadata: BookMeta[]}) {
                             <Link
                               href={`/compare/${get_book_id(book)}`}
                               className="truncate font-serif text-lg text-foreground transition-colors hover:text-accent"
-                              title={book.title[0]}
+                              title={getTitle(book)}
                             >
-                              {book.title[0]}
+                              {getTitle(book)}
                             </Link>
                           </td>
                           <td className="max-w-0 w-1/2 truncate py-3 px-3 text-left  max-md:text-center max-md:w-full">
                             <Link
                               href={`/compare/${get_book_id(book)}`}
                               className="truncate font-serif text-lg text-foreground transition-colors hover:text-accent"
-                              title={book.title[1]}
+                              title={getChineseTitle(book)}
                             >
-                              {book.title[1]}
+                              {getChineseTitle(book)}
                             </Link>
                           </td>
                         </tr>

@@ -28,7 +28,7 @@ def translate(text: str, lang: str = 'cn') -> str:
         "-------------------- TEXT BEGIN ------------------\n\n"
     )
     result = None
-    for i in range(5):
+    for i in range(3):
         response = CLIENT.models.generate_content(
             model="gemini-2.5-flash",
             config=GenerateContentConfig(system_instruction=SYSTEM_PROMPT),

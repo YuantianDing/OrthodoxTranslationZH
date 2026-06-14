@@ -80,6 +80,8 @@ def translate_lang_text(text: dict[str, str], languages: list[str], force_update
                 text[lang] = text[languages[0]]
             elif m := re.search(r'^Глава (\d+)\.?$', text[languages[0]]):
                 text[lang] = f"第 {m.group(1)} 章"
+            elif m := re.search(r'^Слово (\d+)\.?$', text[languages[0]]):
+                text[lang] = f"第 {m.group(1)} 言"
             elif m := re.search(r'^Письмо (\d+)\.?$', text[languages[0]]):
                 text[lang] = f"书信 {m.group(1)}"
             else:
