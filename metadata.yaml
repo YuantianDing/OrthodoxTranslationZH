@@ -393,3 +393,13 @@
   languages:
   - ru
   - cn
+- filepath: 圣游斯丁·波波维奇/约翰福音注释/book.yaml
+  title:
+    ru: Тумачење Светог Еванђеља по Јовану
+    cn: 约翰福音注释
+  authors:
+  - cn: 圣游斯丁·波波维奇
+    ru: Святой Иустин (Попович)
+  languages:
+  - ru
+  - cn
