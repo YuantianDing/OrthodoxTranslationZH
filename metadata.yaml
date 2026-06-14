@@ -20,6 +20,16 @@
   languages:
   - ru
   - cn
+- filepath: 叙利亚的圣以撒/修道之言/book.yaml
+  title:
+    cn: 修道之言
+    ru: Слова подвижнические
+  authors:
+  - cn: 叙利亚人圣以撒
+    ru: преподобный Исаак Сирин Ниневийский
+  languages:
+  - ru
+  - cn
 - filepath: 圣狄奥多尔·斯图狄乌斯/教理讲章/book.yaml
   title:
     ru: Об истинном христианстве
@@ -275,6 +285,26 @@
   languages:
   - ru
   - cn
+- filepath: 圣游斯丁·波波维奇/约翰福音注释/book.yaml
+  title:
+    ru: Тумачење Светог Еванђеља по Јовану
+    cn: 约翰福音注释
+  authors:
+  - cn: 圣游斯丁·波波维奇
+    ru: Святой Иоанн Богослов
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣使徒约翰书信释义/book.yaml
+  title:
+    ru: Тумачење посланица Светог Јована Богослова
+    cn: 约翰书信释义
+  authors:
+  - cn: 圣游斯丁·波波维奇
+    ru: Святой Иустин Богослов
+  languages:
+  - ru
+  - cn
 - filepath: 圣游斯丁·波波维奇/圣徒传记/book.yaml
   title:
     ru: Житија Светих
@@ -380,26 +410,6 @@
     cn: 圣巴尔撒努菲乌斯
   - ru: Святой Иоанн Пророк
     cn: 圣约翰先知
-  languages:
-  - ru
-  - cn
-- filepath: 圣游斯丁·波波维奇/圣徒传记/book.yaml
-  title:
-    ru: Житија Светих
-    cn: 圣徒传
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: Святой Иустин (Попович)
-  languages:
-  - ru
-  - cn
-- filepath: 圣游斯丁·波波维奇/约翰福音注释/book.yaml
-  title:
-    ru: Тумачење Светог Еванђеља по Јовану
-    cn: 约翰福音注释
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: Святой Иустин (Попович)
   languages:
   - ru
   - cn
