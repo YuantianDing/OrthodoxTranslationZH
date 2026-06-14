@@ -16,6 +16,7 @@ def typst_template(title: (str, str), blocks: list[(str, str)]):
         title = f"*{title[0]} {title[1]}*"
     else:
         title = f"*{title[0]}*\n\n*{title[1]}*"
+    inside = '\n'.join('[\n\t' + a + '\n],' for b in blocks for a in b)
     return f"""
 #import "@preview/cjk-unbreak:0.1.1": remove-cjk-break-space
 #show: remove-cjk-break-space
@@ -28,14 +29,13 @@ def typst_template(title: (str, str), blocks: list[(str, str)]):
 #v(20pt)
 
 #grid(columns: 2, gutter: 20pt,
-    {
-        "\n".join(f"[\n\t{a}\n]," for b in blocks for a in b)
-    }
+    {inside}
 )
 """
 
 def typst_template_cn_only(title: (str, str), blocks: list[(str, str)]):
     title = f"*{title[1]}*"
+    inside = "\n\n".join(b[1] for b in blocks)
     return fr"""
 #import "@preview/cjk-unbreak:0.1.1": remove-cjk-break-space
 #show: remove-cjk-break-space
@@ -54,9 +54,7 @@ def typst_template_cn_only(title: (str, str), blocks: list[(str, str)]):
 ])
 
 
-{
-    "\n\n".join(b[1] for b in blocks)
-}
+{inside}
 """
 
 def paragraph_typst(ty: str, initial: str | None, text: str, lang_id: int)-> str:
@@ -105,7 +103,7 @@ def new_footnote(id: str | re.Match):
             FOOTNOTE_HIS.add(id)
             if CN_ONLY:
                 return f" #footnote[{fn2}]#label(\"note{id}\") "
-            return f" #footnote[{fn1 + "#h(1cm)" + fn2}]#label(\"note{id}\") "
+            return f" #footnote[{fn1 + '#h(1cm)' + fn2}]#label(\"note{id}\") "
     elif type(FOOTNOTE_HIS) is dict:
         fn = FOOTNOTE[id]
         FOOTNOTE_HIS[id] = list(fn.values())
