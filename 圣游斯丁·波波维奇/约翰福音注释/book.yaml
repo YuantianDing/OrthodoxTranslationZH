@@ -3,17 +3,8 @@ title:
   cn: 约翰福音注释
 authors:
 - cn: 圣游斯丁·波波维奇
-  ru: Святой Иоанн Богослов
+  ru: преподобный Иустин (Попович)
 document:
-- type: heading4
-  text:
-    ru: Введение
-    cn: 引言
-  children:
-  - type: paragraph
-    text:
-      ru: Содержание
-      cn: 目录
 - type: heading1
   text:
     ru: Тумачење Светог Еванђеља по Јовану

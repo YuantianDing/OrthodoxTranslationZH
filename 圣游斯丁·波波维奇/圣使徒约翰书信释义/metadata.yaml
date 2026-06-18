@@ -1,0 +1,10 @@
+- filepath: book.yaml
+  title:
+    ru: Тумачење посланица Светог Јована Богослова
+    cn: 约翰书信释义
+  authors:
+  - cn: 圣游斯丁·波波维奇
+    ru: Святой Иустин Богослов
+  languages:
+  - ru
+  - cn

@@ -12,7 +12,10 @@ import argparse
 import asyncio
 import os
 import re
+import subprocess
+import tempfile
 from pathlib import Path
+from typing import Optional
 
 import yaml
 import edge_tts
@@ -53,6 +56,85 @@ def extract_text(block: dict, lang: str = 'cn') -> str:
             parts.append(text.strip())
 
     return ' '.join(parts)
+
+
+def extract_localized_value(value, lang: str = 'cn') -> str:
+    """Extract a localized string from a scalar or language map."""
+    if isinstance(value, dict):
+        return str(value.get(lang, '')).strip()
+    if isinstance(value, str):
+        return value.strip()
+    return ''
+
+
+def extract_authors(book: dict, lang: str = 'cn') -> str:
+    """Extract a display string for the book's authors."""
+    authors = book.get('authors', [])
+    if isinstance(authors, dict):
+        authors = [authors]
+
+    author_texts = []
+    if isinstance(authors, list):
+        for author in authors:
+            text = extract_localized_value(author, lang)
+            if text:
+                author_texts.append(text)
+
+    if not author_texts:
+        single_author = extract_localized_value(book.get('author', ''), lang)
+        if single_author:
+            author_texts.append(single_author)
+
+    return "，".join(author_texts)
+
+
+def tag_mp3_file(
+    mp3_path: str,
+    *,
+    title: Optional[str] = None,
+    album: Optional[str] = None,
+    artist: Optional[str] = None,
+):
+    """Write metadata tags into an MP3 file using ffmpeg."""
+    metadata_args = []
+    if title:
+        metadata_args.extend(["-metadata", f"title={title}"])
+    if album:
+        metadata_args.extend(["-metadata", f"album={album}"])
+    if artist:
+        metadata_args.extend(["-metadata", f"artist={artist}"])
+        metadata_args.extend(["-metadata", f"album_artist={artist}"])
+
+    if not metadata_args:
+        return
+
+    source_path = Path(mp3_path)
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3", dir=str(source_path.parent)) as tmp:
+        temp_path = Path(tmp.name)
+
+    try:
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-y",
+                "-i",
+                str(source_path),
+                "-map_metadata",
+                "0",
+                "-c",
+                "copy",
+                *metadata_args,
+                str(temp_path),
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        os.replace(temp_path, source_path)
+    except Exception:
+        if temp_path.exists():
+            temp_path.unlink()
+        raise
 
 
 def collect_chapter_text(chapter: dict, lang: str = 'cn') -> list[str]:
@@ -105,7 +187,9 @@ async def generate_chapter_audio(
     chapter: dict,
     output_path: str,
     voice: str = VOICE,
-    lang: str = 'cn'
+    lang: str = 'cn',
+    album: str = '',
+    artist: str = '',
 ):
     """Generate audio for a single chapter."""
     texts = collect_chapter_text(chapter, lang)
@@ -117,6 +201,8 @@ async def generate_chapter_audio(
     full_text = "。\n".join(texts)
 
     await text_to_audio(full_text, output_path, voice)
+    chapter_title = extract_text(chapter, lang)
+    tag_mp3_file(output_path, title=chapter_title or None, album=album or None, artist=artist or None)
 
 
 async def generate_book_audio(
@@ -142,23 +228,19 @@ async def generate_book_audio(
     # Generate title audio if present
     title = book.get('title', {})
     title_text = title.get(lang, '') if isinstance(title, dict) else str(title)
+    album_text = title_text.strip()
+    artist_text = extract_authors(book, lang)
 
     if title_text:
         title_file = os.path.join(output_dir, "000_标题.mp3")
         if force or not os.path.exists(title_file):
             print(f"Generating: 000_标题.mp3")
-            # Include authors
-            authors = book.get('authors', [])
-            author_texts = []
-            for author in authors:
-                if isinstance(author, dict) and lang in author:
-                    author_texts.append(author[lang])
-
             full_title = title_text
-            if author_texts:
-                full_title += "。作者：" + "，".join(author_texts)
+            if artist_text:
+                full_title += "。作者：" + artist_text
 
             await text_to_audio(full_title, title_file, voice)
+            tag_mp3_file(title_file, title=title_text, album=album_text or None, artist=artist_text or None)
             print(f"  Done: 000_标题.mp3")
         else:
             print(f"Skipping (exists): 000_标题.mp3")
@@ -192,7 +274,7 @@ async def generate_book_audio(
         print(f"Generating [{i}/{len(chapters)}]: {filename}")
 
         try:
-            await generate_chapter_audio(chapter, output_path, voice, lang)
+            await generate_chapter_audio(chapter, output_path, voice, lang, album_text, artist_text)
             print(f"  Done: {filename}")
         except Exception as e:
             print(f"  Error: {e}")
