@@ -4,7 +4,7 @@ from pathlib import Path
 
 def generate_metadata():
     metadata = []
-    for path in Path(".").glob("**/book*.yaml"):
+    for path in Path(".").glob("**/book.yaml"):
         with open(path, "r") as f:
             data = load_yaml(f)
         metadata.append({

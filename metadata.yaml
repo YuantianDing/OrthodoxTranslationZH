@@ -1,3 +1,45 @@
+- filepath: 圣约翰托博尔斯基/天芥菜/book.yaml
+  title:
+    ru: Илиотропион
+    cn: 天芥菜
+  authors:
+  - cn: 圣约翰托博尔斯基
+    ru: Святитель Иоанн (Максимович) Тобольский
+  languages:
+  - ru
+  - cn
+- filepath: 圣山圣尼哥底母/圣祖金言录/book.yaml
+  title:
+    ru: Эвергетинос
+    cn: 圣祖金言录
+  authors:
+  - ru: Преподобный Никодим Святогорец
+    cn: 圣山圣尼哥底母
+  - ru: Преподобный Павел Евергетидский
+    cn: 保罗·埃韦尔格蒂德斯
+  languages:
+  - ru
+  - cn
+- filepath: 叙利亚的圣以撒/修道之言/book.yaml
+  title:
+    cn: 修道之言
+    ru: Слова подвижнические
+  authors:
+  - cn: 叙利亚人圣以撒
+    ru: преподобный Исаак Сирин Ниневийский
+  languages:
+  - ru
+  - cn
+- filepath: 圣狄奥多尔·斯图狄乌斯/教理讲章/book.yaml
+  title:
+    ru: Об истинном христианстве
+    cn: 教理讲章
+  authors:
+  - ru: Преподобный Феодор Студит
+    cn: 可敬者提奥多尔·斯图狄乌斯
+  languages:
+  - ru
+  - cn
 - filepath: 赫勒诺波利斯的圣帕拉迪乌斯/拉乌撒伊克/book.yaml
   title:
     ru: Лавсаик, или повествование о жизни святых и блаженных отцов
@@ -25,6 +67,56 @@
   authors:
   - ru: блаженный Феофилакт Болгарский
     cn: 保加利亚的福音神学家费奥菲拉克特
+  languages:
+  - ru
+  - cn
+- filepath: 大都会约翰·斯尼切夫/圣伊格纳季·布连柴尼诺夫教父言行录的钥匙/book.yaml
+  title:
+    ru: Ключ к Отечнику святителя Игнатия (Брянчанинова)
+    cn: 圣伊格内修斯圣殿的钥匙（Brianchaninov）
+  authors:
+  - ru: Митрополит Иоанн (Снычев)
+    cn: 大都会约翰·斯尼切夫
+  languages:
+  - ru
+  - cn
+- filepath: 圣伊格纳季·布连柴尼诺夫/现代修道献呈/book.yaml
+  title:
+    ru: Приношение современному монашеству
+    cn: 现代修道献呈
+  authors:
+  - cn: 圣伊格纳季·布连柴尼诺夫
+    ru: Святитель Игнатий (Брянчанинов)
+  languages:
+  - ru
+  - cn
+- filepath: 圣伊格纳季·布连柴尼诺夫/苦行经验/book.yaml
+  title:
+    ru: Аскетические опыты
+    cn: 苦行经验
+  authors:
+  - cn: 圣伊格纳季·布连柴尼诺夫
+    ru: Святитель Игнатий (Брянчанинов)
+  languages:
+  - ru
+  - cn
+- filepath: 圣伊格纳季·布连柴尼诺夫/精选书信/book.yaml
+  title:
+    ru: Избранные письма
+    cn: 精选书信
+  authors:
+  - cn: 圣伊格纳季·布连柴尼诺夫
+    ru: Святитель Игнатий (Брянчанинов)
+  languages:
+  - ru
+  - cn
+- filepath: 圣伊格纳季·布连柴尼诺夫/苦行布道/book.yaml
+  title:
+    ru: Аскетическая проповедь
+    cn: 苦行布道
+  authors:
+  - cn: 圣伊格纳季·布连柴尼诺夫
+    ru: Святитель Игнатий (Брянчанинов)
   languages:
   - ru
   - cn
@@ -58,6 +150,131 @@
   languages:
   - ru
   - cn
+- filepath: 隐居者圣西奥凡/何为属灵生活以及如何调整至其中/book.yaml
+  title:
+    ru: Что есть духовная жизнь и как на неё настроиться
+    cn: 何为属灵生活及如何调整至其中
+  authors:
+  - cn: 闭关者圣提奥凡
+    ru: Святитель Феофан Затворник
+  languages:
+  - ru
+  - cn
+- filepath: 隐居者圣西奥凡/祈祷书信/book.yaml
+  title:
+    ru: Письма о молитве
+    cn: 祈祷书信
+  authors:
+  - ru: Святитель Феофан Затворник
+    cn: 闭关者圣提奥凡
+  languages:
+  - ru
+  - cn
+- filepath: 隐居者圣西奥凡/关于祈祷/book.yaml
+  title:
+    ru: О молитве
+    cn: 关于祈祷
+  authors:
+  - cn: 闭关者圣提奥凡
+    ru: Святитель Феофан Затворник
+  languages:
+  - ru
+  - cn
+- filepath: 隐居者圣西奥凡/圣父论祈祷与警醒/book.yaml
+  title:
+    ru: Святые отцы о молитве и трезвении
+    cn: 圣父论祈祷与警醒
+  authors:
+  - cn: 闭关者圣提奥凡
+    ru: Святитель Феофан Затворник
+  languages:
+  - ru
+  - cn
+- filepath: 隐居者圣西奥凡/无形战/book.yaml
+  title:
+    en: Unseen Warfare
+    cn: 无形战
+  authors:
+  - cn: 闭关者圣提奥凡
+    ru: Святитель Феофан Затворник
+    en: St. Theophan the Recluse
+  - cn: 圣山圣尼哥底母
+    ru: Святой Никодим Святогорец
+    en: St. Nicodemos the Hagiorite
+  languages:
+  - en
+  - cn
+- filepath: 隐居者圣西奥凡/每日思索/book.yaml
+  title:
+    ru: Мысли на каждый день
+    cn: 每日思索
+  authors:
+  - cn: 闭关者圣提奥凡
+    ru: Святитель Феофан Затворник
+    en: St. Theophan the Recluse
+  languages:
+  - ru
+  - cn
+- filepath: 隐居者圣西奥凡/如何学习祈祷/book.yaml
+  title:
+    ru: Как научиться молиться
+    cn: 如何学习祈祷
+  authors:
+  - cn: 闭关者圣提奥凡
+    ru: Святитель Феофан Затворник
+  languages:
+  - ru
+  - cn
+- filepath: 隐居者圣西奥凡/救赎之路-简明禁欲主义纲要/book.yaml
+  title:
+    ru: Путь ко спасению. Краткий очерк аскетики
+    cn: 救赎之路-简明禁欲主义纲要
+  authors:
+  - cn: 闭关者圣提奥凡
+    ru: Святитель Феофан Затворник
+  languages:
+  - ru
+  - cn
+- filepath: 圣彼得·莫希拉/东方公教会和使徒教会的正统告白/book.yaml
+  title:
+    ru: Православное исповедание Кафолической и Апостольской Церкви Восточной
+    cn: 东方公教会和使徒教会的正统告白
+  authors:
+  - cn: 圣彼得·莫希拉
+    ru: Святитель Петр (Могила)
+  languages:
+  - ru
+  - cn
+- filepath: 阿陀斯人圣帕伊西乌斯/信件/book.yaml
+  title:
+    ru: Письма
+    cn: 信件
+  authors:
+  - ru: Преподобный Паисий Святогорец
+    cn: 阿陀斯人圣帕伊西乌斯
+  languages:
+  - ru
+  - cn
+- filepath: 阿陀斯人圣帕伊西乌斯/箴言/book.yaml
+  title:
+    ru: Слова прп. Паисия Святогорца.
+    cn: 阿陀斯人圣帕伊西乌斯之言
+  authors:
+  - ru: Преподобный Паисий Святогорец
+    cn: 阿陀斯人圣帕伊西乌斯
+  languages:
+  - ru
+  - cn
+- filepath: 圣约翰克朗塔斯特/我在基督里的生活/book.yaml
+  title:
+    ru: Моя жизнь во Христе
+    cn: 我在基督里的生活
+  authors:
+  - ru: Протоиерей И. Сергиев
+    cn: 圣约翰克罗塔斯特
+  languages:
+  - ru
+  - cn
 - filepath: 圣游斯丁·波波维奇/约翰福音注释/book.yaml
   title:
     ru: Тумачење Светог Еванђеља по Јовану
@@ -78,13 +295,21 @@
   languages:
   - ru
   - cn
+- filepath: 圣游斯丁·波波维奇/加拉太书释义/book.yaml
+  title:
+    ru: Тумачењe посланице Галатима Светог Апостола Павла
+    cn: 加拉太书释义
+  authors:
+  - cn: 圣游斯丁·波波维奇
+    ru: преподобный Иустин (Попович)
+  languages:
+  - ru
+  - cn
 - filepath: 圣游斯丁·波波维奇/圣徒传记/book.yaml
   title:
     ru: Житија Светих
     cn: 圣徒传
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -92,9 +317,27 @@
   title:
     ru: Сабране беседе
     cn: 讲道集
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 叙利亚的圣以弗冷/作品/book.yaml
+  title:
+    ru: Творения
+    cn: 著作集
   authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  - cn: 叙利亚的圣以弗冷
+    ru: Преподобный Ефрем Сирин
+  languages:
+  - ru
+  - cn
+- filepath: 阿陀斯人圣西卢安/教诲与著作/book.yaml
+  title:
+    ru: УЧЕЊЕ И СПИСИ
+    cn: 教诲与著作
+  authors:
+  - ru: Преподобни Силуан Атонски
+    cn: 阿陀斯人圣西卢安
   languages:
   - ru
   - cn
@@ -135,6 +378,38 @@
   authors:
   - ru: Святитель Иоанн Златоуст
     cn: 圣约翰金口
+  languages:
+  - ru
+  - cn
+- filepath: 圣季米特里罗斯托夫斯基/属灵字母表/book.yaml
+  title:
+    ru: Алфавит духовный
+    cn: 属灵字母表
+  authors:
+  - ru: Святитель Димитрий Ростовский
+    cn: 圣狄米特里·罗斯托夫
+  languages:
+  - ru
+  - cn
+- filepath: 阿爸多罗修斯/有益灵魂的训诲与书信/book.yaml
+  title:
+    ru: Душеполезные поучения и послания
+    cn: 有益灵魂的训诲与书信
+  authors:
+  - cn: 阿爸多罗修斯
+    ru: Авва Дорофей
+  languages:
+  - ru
+  - cn
+- filepath: 圣巴尔撒努菲乌斯及圣约翰先知/问答录/book.yaml
+  title:
+    ru: Вопросы и ответы
+    cn: 问答录
+  authors:
+  - ru: Святитель Варсоно́фий
+    cn: 圣巴尔撒努菲乌斯
+  - ru: Святой Иоанн Пророк
+    cn: 圣约翰先知
   languages:
   - ru
   - cn
