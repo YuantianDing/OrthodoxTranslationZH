@@ -166,3 +166,13 @@
   languages:
   - ru
   - cn
+- filepath: 叙利亚的圣以弗冷/作品/book.yaml
+  title:
+    ru: Творения
+    cn: 作品
+  authors:
+  - ru: святой Ефрем Сирин
+    cn: 叙利亚的圣以弗冷
+  languages:
+  - ru
+  - cn
