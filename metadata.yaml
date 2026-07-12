@@ -305,10 +305,98 @@
   languages:
   - ru
   - cn
-- filepath: 圣游斯丁·波波维奇/圣徒传记/book.yaml
+- filepath: 圣游斯丁·波波维奇/圣徒传(一月)/book.yaml
   title:
-    ru: Житија Светих
-    cn: 圣徒传
+    ru: Житија Светих. Јануар
+    cn: 圣徒传(一月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(二月)/book.yaml
+  title:
+    ru: Житија Светих. Фебруар
+    cn: 圣徒传(二月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(三月)/book.yaml
+  title:
+    ru: Житија Светих. Март
+    cn: 圣徒传(三月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(四月)/book.yaml
+  title:
+    ru: Житија Светих. Април
+    cn: 圣徒传(四月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(五月)/book.yaml
+  title:
+    ru: Житија Светих. Мај
+    cn: 圣徒传(五月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(六月)/book.yaml
+  title:
+    ru: Житија Светих. Јун
+    cn: 圣徒传(六月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(七月)/book.yaml
+  title:
+    ru: Житија Светих. Јул
+    cn: 圣徒传(七月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(八月)/book.yaml
+  title:
+    ru: Житија Светих. Август
+    cn: 圣徒传(八月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(九月)/book.yaml
+  title:
+    ru: Житија Светих. Септембар
+    cn: 圣徒传(九月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(十月)/book.yaml
+  title:
+    ru: Житија Светих. Октобар
+    cn: 圣徒传(十月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(十一月)/book.yaml
+  title:
+    ru: Житија Светих. Новембар
+    cn: 圣徒传(十一月)
+  authors: []
+  languages:
+  - ru
+  - cn
+- filepath: 圣游斯丁·波波维奇/圣徒传(十二月)/book.yaml
+  title:
+    ru: Житија Светих. Децембар
+    cn: 圣徒传(十二月)
   authors: []
   languages:
   - ru
