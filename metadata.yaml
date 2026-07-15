@@ -258,3 +258,13 @@
   languages:
   - ru
   - cn
+- filepath: 亚利桑那的圣以弗冷/苦修智慧的珍珠/book.yaml
+  title:
+    ru: Жемчужины аскетической мудрости
+    cn: 苦修智慧的珍珠
+  authors:
+  - ru: Преподобный Ефрем Аризонский
+    cn: 亚利桑那的圣以弗冷
+  languages:
+  - ru
+  - cn
