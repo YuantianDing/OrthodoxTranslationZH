@@ -268,3 +268,13 @@
   languages:
   - ru
   - cn
+- filepath: 大都会约翰·斯尼切夫/圣伊格纳季·布连柴尼诺夫教父言行录的钥匙/book.yaml
+  title:
+    ru: Ключ к Отечнику святителя Игнатия (Брянчанинова)
+    cn: 圣伊格内修斯圣殿的钥匙（Brianchaninov）
+  authors:
+  - ru: Митрополит Иоанн (Снычев)
+    cn: 大都会约翰·斯尼切夫
+  languages:
+  - ru
+  - cn
