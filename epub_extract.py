@@ -80,9 +80,24 @@ for path in sys.argv[1:]:
     print(initial_words)
     if document[0]['type'] == 'paragraph':
         document = document[1:]
-    title = os.path.basename(path).replace('.epub', '')
-    authors = [title.split(' - ')[-1]] if ' - ' in title else []
-    title = ' - '.join(title.split(' - ', maxsplit=1)[:-1])
+    # Azbyka downloads may use a `.gen.epub` filename without the author.  Use
+    # the EPUB's Dublin Core metadata when present, while retaining the old
+    # filename convention as a fallback for older files in this repository.
+    metadata_titles = book.get_metadata('DC', 'title')
+    metadata_authors = book.get_metadata('DC', 'creator')
+    filename_title = os.path.basename(path).removesuffix('.epub').removesuffix('.gen')
+    if ' - ' in filename_title:
+        fallback_title, fallback_author = filename_title.split(' - ', maxsplit=1)
+    else:
+        fallback_title, fallback_author = filename_title, None
+    title = metadata_titles[0][0].strip() if metadata_titles else fallback_title
+    authors = [
+        value.strip().strip('"')
+        for value, _attributes in metadata_authors
+        if value.strip().strip('"')
+    ]
+    if not authors and fallback_author:
+        authors = [fallback_author]
     with open(path.replace('.epub', '.yaml'), 'w', encoding='utf-8') as f:
         dump_yaml({
             'title': { 'ru': title },

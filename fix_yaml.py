@@ -1,4 +1,6 @@
 from copy import deepcopy
+from concurrent.futures import ThreadPoolExecutor
+from threading import Lock
 import os.path
 import os
 from pathlib import Path
@@ -57,6 +59,7 @@ def check_git_status():
         sys.exit(1)
 
 AI_PERMISSION = None
+POSTPROCESS_LOCK = Lock()
 def ask_ai_permission():
     global AI_PERMISSION
     if AI_PERMISSION is not None:
@@ -98,7 +101,13 @@ def translate_lang_text(text: dict[str, str], languages: list[str], force_update
                     break
                 translated = True
     if 'cn' in text:
-        text['cn'] = standardize_bible_names(lastly_map(zhconv.convert(text['cn'], 'zh-hans')))
+        # pyparsing grammars used by standardize_bible_names are shared module
+        # objects and are not safe to scan concurrently.
+        with POSTPROCESS_LOCK:
+            text['cn'] = standardize_bible_names(lastly_map(zhconv.convert(text['cn'], 'zh-hans')))
+            text['cn'] = text['cn'].replace("宗徒", "使徒").replace("阿门", "阿们").replace("圣金口约翰", "圣约翰金口")
+            if m := re.fullmatch(r'Беседа\s+(\d+)(?:-я)?\.?', text[languages[0]].strip()):
+                text['cn'] = f"第 {m.group(1)} 讲"
     if translated:
         for lang in languages:
             if lang in text:
@@ -119,6 +128,23 @@ def translate_block(block, languages: list[str], force_update=False):
         if 'initial' in block:
             translate_lang_text(block['initial'], languages, force_update)
 
+def collect_block_texts(block):
+    """Return a block's translatable mappings in document order."""
+    texts = []
+    if block['type'] in ['heading1', 'heading2', 'heading3', 'heading4']:
+        for k, v in block['text'].items():
+            block['text'][k] = v.replace("\n\n", "").strip()
+        texts.append(block['text'])
+        if 'initial' in block:
+            texts.append(block['initial'])
+        for child in block['children']:
+            texts.extend(collect_block_texts(child))
+    elif block['type'] in ['paragraph', 'h1', 'h2', 'h3', 'h4']:
+        texts.append(block['text'])
+        if 'initial' in block:
+            texts.append(block['initial'])
+    return texts
+
 if __name__ == "__main__":
     for workdir in sys.argv[1:]:
         workdir = Path(workdir)
@@ -133,24 +159,38 @@ if __name__ == "__main__":
         for path in workdir.glob("**/book*.yaml"):
             with YAMLSync(path) as data:
                 book = Book.convert_dict(data)
-                translate_lang_text(book['title'], languages=book['languages'])
+                translation_targets = [book['title']]
                 if 'authors' in book:
                     authors = []
                     for author in book['authors']:
                         if type(author) is str:
                             author = {book['languages'][0]: author}
-                        translate_lang_text(author, languages=book['languages'])
+                        translation_targets.append(author)
                         authors.append(author)
                     book['authors'] = authors
                 
                 book['footnotes'] = {(str(k) if str(k).startswith('[') else f"[{k}]"): v for k, v in book['footnotes'].items()}
                 
-
-
                 for block in book["document"]:
-                    translate_block(block, languages=book['languages'])
+                    translation_targets.extend(collect_block_texts(block))
 
                 for footnote in book['footnotes'].values():
-                    translate_lang_text(footnote, languages=book['languages'])
+                    translation_targets.append(footnote)
+
+                if os.getenv('TRANSLATION_REVERSE') == '1':
+                    translation_targets.reverse()
+                workers = max(1, int(os.getenv('TRANSLATION_WORKERS', '1')))
+                if workers == 1:
+                    for target in translation_targets:
+                        translate_lang_text(target, languages=book['languages'])
+                else:
+                    print(f"[Translate] Using {workers} workers for {len(translation_targets)} fields", file=sys.stderr)
+                    with ThreadPoolExecutor(max_workers=workers) as executor:
+                        futures = [
+                            executor.submit(translate_lang_text, target, book['languages'])
+                            for target in translation_targets
+                        ]
+                        for future in futures:
+                            future.result()
         if os.path.abspath(workdir) == os.path.dirname(os.path.abspath(__file__)):
             generate_metadata()

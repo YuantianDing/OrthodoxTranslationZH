@@ -120,6 +120,16 @@
   languages:
   - ru
   - cn
+- filepath: 圣卢卡（沃伊诺-亚塞涅茨基）/对叙利亚人圣以弗冷的祈祷文的解释/book.yaml
+  title:
+    ru: Толкование на молитву святого Ефрема Сирина
+    cn: 对叙利亚人圣以弗冷的祈祷文的解释
+  authors:
+  - ru: Святитель Лука (Войно-Ясенецкий)
+    cn: 圣卢卡（沃伊诺-亚瑟涅茨基）
+  languages:
+  - ru
+  - cn
 - filepath: 圣季洪·扎东斯基/关于每个基督徒个人责任的训诫/book.yaml
   title:
     ru: Наставления о личных обязанностях каждого христианина
@@ -279,9 +289,7 @@
   title:
     ru: Житија Светих. Фебруар
     cn: 圣徒传(二月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -309,9 +317,7 @@
   title:
     ru: Житија Светих. Јун
     cn: 圣徒传(六月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -329,9 +335,7 @@
   title:
     ru: Житија Светих. Децембар
     cn: 圣徒传(十二月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -339,9 +343,7 @@
   title:
     ru: Житија Светих. Мај
     cn: 圣徒传(五月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -349,9 +351,7 @@
   title:
     ru: Житија Светих. Септембар
     cn: 圣徒传(九月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -359,9 +359,7 @@
   title:
     ru: Житија Светих. Април
     cn: 圣徒传(四月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -369,9 +367,7 @@
   title:
     ru: Житија Светих. Јул
     cn: 圣徒传(七月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -379,9 +375,7 @@
   title:
     ru: Житија Светих. Март
     cn: 圣徒传(三月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -389,9 +383,7 @@
   title:
     ru: Житија Светих. Октобар
     cn: 圣徒传(十月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -399,9 +391,7 @@
   title:
     ru: Житија Светих. Август
     cn: 圣徒传(八月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -409,9 +399,7 @@
   title:
     ru: Житија Светих. Новембар
     cn: 圣徒传(十一月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -419,9 +407,7 @@
   title:
     ru: Сабране беседе
     cn: 讲道集
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -429,9 +415,7 @@
   title:
     ru: Житија Светих. Јануар
     cn: 圣徒传(一月)
-  authors:
-  - cn: 圣游斯丁·波波维奇
-    ru: преподобный Иустин (Попович)
+  authors: []
   languages:
   - ru
   - cn
@@ -485,12 +469,62 @@
   languages:
   - ru
   - cn
+- filepath: 圣约翰金口/使徒行传注释/book.yaml
+  title:
+    ru: Беседы на Деяния Апостольские
+    cn: 使徒行传讲道集
+  authors:
+  - ru: святитель Иоанн Златоуст
+    cn: 圣约翰金口
+  languages:
+  - ru
+  - cn
+- filepath: 圣约翰金口/哥林多前书注释/book.yaml
+  title:
+    ru: Беседы на 1-е послание к Коринфянам
+    cn: 哥林多前书讲道集
+  authors:
+  - ru: святитель Иоанн Златоуст
+    cn: 圣约翰金口
+  languages:
+  - ru
+  - cn
+- filepath: 圣约翰金口/约翰福音注释/book.yaml
+  title:
+    ru: Беседы на Евангелие от Иоанна Богослова
+    cn: 神学家约翰福音讲论
+  authors:
+  - ru: святитель Иоанн Златоуст
+    cn: 圣约翰金口
+  languages:
+  - ru
+  - cn
 - filepath: 圣约翰金口/马太福音注释/book.yaml
   title:
     ru: Беседы на Евангелие от Матфея
     cn: 马太福音注释
   authors:
   - ru: Святитель Иоанн Златоуст
+    cn: 圣约翰金口
+  languages:
+  - ru
+  - cn
+- filepath: 圣约翰金口/使徒行传题名讲道/book.yaml
+  title:
+    ru: Беседы о надписании книги Деяний
+    cn: 《关于使徒行传题名的讲论》
+  authors:
+  - ru: святитель Иоанн Златоуст
+    cn: 圣约翰金口
+  languages:
+  - ru
+  - cn
+- filepath: 圣约翰金口/哥林多后书注释/book.yaml
+  title:
+    ru: Толкование на 2-е послание к Коринфянам
+    cn: 哥林多后书诠释
+  authors:
+  - ru: святитель Иоанн Златоуст
     cn: 圣约翰金口
   languages:
   - ru
@@ -544,6 +578,16 @@
     cn: 圣巴尔撒努菲乌斯
   - ru: Святой Иоанн Пророк
     cn: 圣约翰先知
+  languages:
+  - ru
+  - cn
+- filepath: 上海与旧金山的圣伊望/关于祈祷/book.yaml
+  title:
+    ru: О молитве
+    cn: 关于祈祷
+  authors:
+  - ru: Святитель Иоанн (Максимович)
+    cn: 圣伊望（马克西莫维奇）
   languages:
   - ru
   - cn

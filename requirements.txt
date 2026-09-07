@@ -5,6 +5,7 @@ google-genai
 marko
 pycnnum
 pydantic
+pypdf
 pypandoc
 pyparsing
 pyyaml
