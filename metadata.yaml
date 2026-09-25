@@ -519,6 +519,16 @@
   languages:
   - ru
   - cn
+- filepath: 圣约翰金口/以弗所书注释/book.yaml
+  title:
+    ru: Беседы на послание к Ефесянам
+    cn: 对以弗所书的讲道
+  authors:
+  - ru: святитель Иоанн Златоуст
+    cn: 圣约翰金口
+  languages:
+  - ru
+  - cn
 - filepath: 圣约翰金口/哥林多前书注释/book.yaml
   title:
     ru: Беседы на 1-е послание к Коринфянам

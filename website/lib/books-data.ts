@@ -59,26 +59,23 @@ export async function retrieve_book_metadata(): Promise<BookMeta[]> {
 }
 
 async function loadMetadata(): Promise<BookMeta[]> {
-  const remote = await fetchText(`${RAW_BASE_URL}/metadata.yaml`)
-  if (remote !== null) {
-    return transform(yaml.load(remote)) as BookMeta[]
+  const metadataPath = path.join(DATA_ROOT, "metadata.yaml")
+  if (fs.existsSync(metadataPath)) {
+    return transform(yaml.load(fs.readFileSync(metadataPath, "utf8"))) as BookMeta[]
   }
 
-  const metadataPath = path.join(DATA_ROOT, "metadata.yaml")
-  return transform(yaml.load(fs.readFileSync(metadataPath, "utf8"))) as BookMeta[]
+  const remote = await fetchText(`${RAW_BASE_URL}/metadata.yaml`)
+  return remote === null ? [] : transform(yaml.load(remote)) as BookMeta[]
 }
 
 async function loadBook(filepath: string): Promise<Book | null> {
-  const remote = await fetchText(`${RAW_BASE_URL}/${encodeURI(filepath)}`)
-  if (remote !== null) {
-    return transform(yaml2.parse(remote)) as Book
+  const filePath = path.join(DATA_ROOT, filepath)
+  if (fs.existsSync(filePath)) {
+    return transform(yaml2.parse(fs.readFileSync(filePath, "utf8"))) as Book
   }
 
-  const filePath = path.join(DATA_ROOT, filepath)
-  if (!fs.existsSync(filePath)) {
-    return null
-  }
-  return transform(yaml2.parse(fs.readFileSync(filePath, "utf8"))) as Book
+  const remote = await fetchText(`${RAW_BASE_URL}/${encodeURI(filepath)}`)
+  return remote === null ? null : transform(yaml2.parse(remote)) as Book
 }
 
 async function fetchText(url: string): Promise<string | null> {
