@@ -21,6 +21,7 @@ import yaml
 import edge_tts
 
 VOICE = "zh-CN-YunjianNeural"
+SPEED = 0.75
 
 
 def load_book(yaml_path: str) -> dict:
@@ -177,9 +178,15 @@ def get_chapters(book: dict, heading_level: int = 1) -> list[dict]:
     return chapters
 
 
-async def text_to_audio(text: str, output_path: str, voice: str = VOICE):
+async def text_to_audio(
+    text: str,
+    output_path: str,
+    voice: str = VOICE,
+    speed: float = SPEED,
+):
     """Convert text to audio using Edge TTS."""
-    communicate = edge_tts.Communicate(text=text, voice=voice)
+    rate = f"{(speed - 1) * 100:+.0f}%"
+    communicate = edge_tts.Communicate(text=text, voice=voice, rate=rate)
     await communicate.save(output_path)
 
 
@@ -187,6 +194,7 @@ async def generate_chapter_audio(
     chapter: dict,
     output_path: str,
     voice: str = VOICE,
+    speed: float = SPEED,
     lang: str = 'cn',
     album: str = '',
     artist: str = '',
@@ -200,7 +208,7 @@ async def generate_chapter_audio(
     # Join with pauses
     full_text = "。\n".join(texts)
 
-    await text_to_audio(full_text, output_path, voice)
+    await text_to_audio(full_text, output_path, voice, speed)
     chapter_title = extract_text(chapter, lang)
     tag_mp3_file(output_path, title=chapter_title or None, album=album or None, artist=artist or None)
 
@@ -209,6 +217,7 @@ async def generate_book_audio(
     book: dict,
     output_dir: str,
     voice: str = VOICE,
+    speed: float = SPEED,
     lang: str = 'cn',
     force: bool = False,
     heading_level: int = 1
@@ -239,7 +248,7 @@ async def generate_book_audio(
             if artist_text:
                 full_title += "。作者：" + artist_text
 
-            await text_to_audio(full_title, title_file, voice)
+            await text_to_audio(full_title, title_file, voice, speed)
             tag_mp3_file(title_file, title=title_text, album=album_text or None, artist=artist_text or None)
             print(f"  Done: 000_标题.mp3")
         else:
@@ -274,7 +283,7 @@ async def generate_book_audio(
         print(f"Generating [{i}/{len(chapters)}]: {filename}")
 
         try:
-            await generate_chapter_audio(chapter, output_path, voice, lang, album_text, artist_text)
+            await generate_chapter_audio(chapter, output_path, voice, speed, lang, album_text, artist_text)
             print(f"  Done: {filename}")
         except Exception as e:
             print(f"  Error: {e}")
@@ -300,6 +309,12 @@ def main():
         "--voice",
         default=VOICE,
         help=f"TTS voice to use (default: {VOICE})"
+    )
+    parser.add_argument(
+        "--speed",
+        type=float,
+        default=SPEED,
+        help=f"Speech speed multiplier (default: {SPEED})"
     )
     parser.add_argument(
         "--lang",
@@ -329,6 +344,7 @@ def main():
     # Generate audio
     print(f"Output directory: {args.output}")
     print(f"Voice: {args.voice}")
+    print(f"Speed: {args.speed}")
     print(f"Language: {args.lang}")
     print(f"Heading level: {args.heading}")
     print()
@@ -337,6 +353,7 @@ def main():
         book,
         args.output,
         args.voice,
+        args.speed,
         args.lang,
         args.force,
         args.heading
