@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock

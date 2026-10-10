@@ -1,7 +1,13 @@
+from __future__ import annotations
+
 import yaml
 from collections import deque
 from copy import deepcopy
-from typing import Any, Literal, NotRequired, TypedDict
+from typing import Any, Literal, TypedDict
+try:
+    from typing import NotRequired
+except ImportError:  # Python < 3.11
+    from typing_extensions import NotRequired
 import os
 
 def lang_text(text: str | dict[str, str], languages: list[str]) -> dict[str, str]:

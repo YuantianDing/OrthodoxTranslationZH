@@ -5,3 +5,5 @@
 .vscode/
 **/book.audio/
 output/
+*.mp3
+tmp/

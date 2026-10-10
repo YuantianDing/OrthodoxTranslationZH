@@ -42,7 +42,7 @@ def load_data(data, returnty):
         return {load_data(k, get_args(returnty)[0]): load_data(v, get_args(returnty)[1]) for k, v in data.items()}
     elif get_origin(returnty) == tuple:
         return tuple(load_data(data, ty) for data, ty in zip(data, get_args(returnty)))
-    elif get_origin(returnty) == types.UnionType:
+    elif getattr(types, 'UnionType', None) is not None and get_origin(returnty) == types.UnionType:
         for arg in get_args(returnty):
             try:
                 return load_data(data, arg)
