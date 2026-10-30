@@ -569,6 +569,36 @@
   languages:
   - ru
   - cn
+- filepath: 大修士索夫罗尼（萨哈罗夫）/灵修谈话（第一卷）/book.yaml
+  title:
+    ru: Духовные беседы. Том 1
+    cn: 灵修谈话（第一卷）
+  authors:
+  - ru: архимандрит Софроний (Сахаров)
+    cn: 大修士索夫罗尼（萨哈罗夫）
+  languages:
+  - ru
+  - cn
+- filepath: 大修士索夫罗尼（萨哈罗夫）/论祈祷/book.yaml
+  title:
+    ru: О молитве
+    cn: 论祈祷
+  authors:
+  - ru: архимандрит Софроний (Сахаров)
+    cn: 大修士索夫罗尼（萨哈罗夫）
+  languages:
+  - ru
+  - cn
+- filepath: 大修士索夫罗尼（萨哈罗夫）/灵修谈话（第二卷）/book.yaml
+  title:
+    ru: Духовные беседы. Том 2
+    cn: 灵修谈话（第二卷）
+  authors:
+  - ru: архимандрит Софроний (Сахаров)
+    cn: 大修士索夫罗尼（萨哈罗夫）
+  languages:
+  - ru
+  - cn
 - filepath: 圣约翰金口/腓利门书注释/book.yaml
   title:
     ru: Толкование на послание к Филимону
