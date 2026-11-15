@@ -240,6 +240,16 @@
   languages:
   - ru
   - cn
+- filepath: 圣季洪·扎东斯基/修室书信/book.yaml
+  title:
+    ru: Письма келейные
+    cn: 修室书信
+  authors:
+  - ru: Святитель Тихон Задонский
+    cn: 圣主教季洪·扎东斯基
+  languages:
+  - ru
+  - cn
 - filepath: 圣季洪·扎东斯基/关于真正的基督教/book.yaml
   title:
     ru: Об истинном христианстве
@@ -519,6 +529,16 @@
   languages:
   - ru
   - cn
+- filepath: 日查的圣尼古拉/战争与圣经/book.yaml
+  title:
+    ru: Рат и Библия
+    cn: 战争与圣经
+  authors:
+  - ru: Святой Владыка Николай Жички
+    cn: 日查的圣尼古拉
+  languages:
+  - ru
+  - cn
 - filepath: 叙利亚的圣以弗冷/作品/book.yaml
   title:
     ru: Творения
@@ -556,6 +576,16 @@
   authors:
   - cn: 闭关者圣格奥尔基
     ru: Преподобный Георгий Затворник
+  languages:
+  - ru
+  - cn
+- filepath: 圣波尔费里·卡夫索卡利维特/被爱所伤/book.yaml
+  title:
+    ru: Житие и слова
+    cn: 被爱所伤
+  authors:
+  - ru: Преподобный Порфирий Кавсокаливит
+    cn: 圣波尔费里·卡夫索卡利维特
   languages:
   - ru
   - cn
